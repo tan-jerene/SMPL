@@ -1,9 +1,9 @@
 /* Specification for ECOLI tokens */
 
 // user customisations
-package hpl.lang;
+//package hpl.lang;
 
-import hpl.sys.*;
+//import hpl.sys.*;
 import java_cup.runtime.*;
 
 %%
@@ -91,6 +91,9 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    PRINT { return new Symbol(sym.PRINT); }
 <YYINITIAL>    println { return new Symbol(sym.PRINTLN); }
 <YYINITIAL>    PRINTLN { return new Symbol(sym.PRINTLN); }
+
+<YYINITIAL>    pair { return new Symbol(sym.PAIR); }
+<YYINITIAL>    PAIR { return new Symbol(sym.PAIR); }
 
 <YYINITIAL>    if { return new Symbol(sym.IF); }
 <YYINITIAL>    IF { return new Symbol(sym.IF); }

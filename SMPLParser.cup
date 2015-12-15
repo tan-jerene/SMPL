@@ -1,4 +1,4 @@
-package hpl.lang;
+//package hpl.lang;
 
 
 import java_cup.runtime.*;
@@ -74,7 +74,7 @@ non terminal SMPLProgram program;
 non terminal SMPLSequence stmtList;
 non terminal SMPLStatement stmt;
 non terminal SMPLStatement waitStmt;
-non terminal SMPLPaintStmt paintStmt;
+non terminal SMPLPaintStmt printStmt;
 
 non terminal ASTExp expression;
 non terminal ASTExp comparison;
@@ -108,6 +108,7 @@ stmtList ::= stmtList:seq stmt:s {:
 stmt ::=   assignment:a {: RESULT = a; :} |
 		   waitStmt:w {: RESULT = w; :} |
 		   expression:e {: RESULT = e; :} |
+		   printStmt:p {: RESULT = p; :} |
 		   ifstatement:i {: RESULT = i; :};
 
 waitStmt ::= WAIT arithExp:t {: RESULT = new SMPLWaitStmt(t); :};
@@ -127,6 +128,7 @@ comparison ::= comparison:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRE
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
+				PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN | //ADDED BUT UNSURE IF CORRECT
 				STRING:str {: RESULT = s :} | //For String assignment
 	        	LPAREN expression:e RPAREN {: RESULT = e; :} |
 	   			funCall:s {: RESULT = s; :}; //Editted:- 14/12/2015_7:39pm

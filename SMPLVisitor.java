@@ -1,7 +1,3 @@
-package SMPL.lang;
-
-import SMPL.sys.SMPLException;
-
 /**
  * @author <a href="mailto:newts@uwimona.edu.jm">Daniel Coore</a>
  * @version 1.0
