@@ -77,6 +77,7 @@ non terminal SMPLStatement waitStmt;
 non terminal SMPLPaintStmt paintStmt;
 
 non terminal ASTExp expression;
+non terminal ASTExp comparison;
 non terminal ASTExp<AIRExp> term;
 non terminal ASTExp<AIRExp> power;
 non terminal ASTExp<AIRExp> factor;
@@ -113,11 +114,14 @@ waitStmt ::= WAIT arithExp:t {: RESULT = new SMPLWaitStmt(t); :};
 
 assignment ::= VAR:v ASSIGN comparison:c {:RESULT = new ExpAssign(v, c); :};
 
-/**********************CONDITIONAL FUNCTIONALITY*********************/
-ifstatement ::= IF comparison:c THEN stmtList:s { new SMPLBooleanOp(c, s); } |
-				IF comparison:c THEN stmtList:s ELSE stmtList:l {: RESULT = new SMPLBooleanOp(c, s, l); };
+printStatement ::= PRINT expression:e {: RESULT = new SMPLPrintStmt("", e); :} |
+				   PRINTLN expression:e {: RESULT = new SMPLPrintStmt("\n", e); :};
 
-comparison ::= comparison:c CMP:m expression:e {: RESULT = new SMPLBooleanExp(m, c, e); } |
+/**********************CONDITIONAL FUNCTIONALITY*********************/
+ifstatement ::= IF comparison:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
+				IF comparison:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
+
+comparison ::= comparison:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRExp>(c, m, e); } |
 			   LPAREN comparison:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
 

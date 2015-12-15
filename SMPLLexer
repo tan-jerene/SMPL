@@ -87,6 +87,11 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    proc { return new Symbol(sym.PROC); }
 <YYINITIAL>    PROC { return new Symbol(sym.PROC); }
 
+<YYINITIAL>    print { return new Symbol(sym.PRINT); }
+<YYINITIAL>    PRINT { return new Symbol(sym.PRINT); }
+<YYINITIAL>    println { return new Symbol(sym.PRINTLN); }
+<YYINITIAL>    PRINTLN { return new Symbol(sym.PRINTLN); }
+
 <YYINITIAL>    if { return new Symbol(sym.IF); }
 <YYINITIAL>    IF { return new Symbol(sym.IF); }
 
