@@ -41,6 +41,42 @@ public enum BinOpArith implements BinaryOp<Double, Double> {
             return leftArg % rightArg;
         }
     },
+    CMP("<") {
+        @Override
+        public Boolean apply(Double leftArg, Double rightArg) {
+            return leftArg < rightArg;
+        }
+    },
+    CMP(">") {
+        @Override
+        public Boolean apply(Double leftArg, Double rightArg) {
+            return leftArg > rightArg;
+        }
+    },
+    CMP("<=") {
+        @Override
+        public Boolean apply(Double leftArg, Double rightArg) {
+            return leftArg <= rightArg;
+        }
+    },
+    CMP(">=") {
+        @Override
+        public Boolean apply(Double leftArg, Double rightArg) {
+            return leftArg >= rightArg;
+        }
+    },
+    CMP("==") {
+        @Override
+        public Boolean apply(Double leftArg, Double rightArg) {
+            return leftArg == rightArg;
+        }
+    },
+    CMP("!=") {
+        @Override
+        public Boolean apply(Double leftArg, Double rightArg) {
+            return leftArg != rightArg;
+        }
+    },
     ;
     
     String symbol;
