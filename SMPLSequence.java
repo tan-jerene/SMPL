@@ -24,11 +24,11 @@ public class SMPLSequence extends ASTExp {
     }
 
     /**
-     * Creates a new <code>PIRSequence</code> instance.
+     * Creates a new <code>SMPLSequence</code> instance.
      *
      * @param seq an <code>ArrayList</code> value
      */
-    public SMPLSequence(ArrayList<PIRStatement> seq) {
+    public SMPLSequence(ArrayList<SMPLStatement> seq) {
 	sequence = seq;
     }
 
@@ -46,13 +46,13 @@ public class SMPLSequence extends ASTExp {
     }
 
     /**
-     * Call the visitPIRSequence method within <code>v</code> on this
+     * Call the visitSMPLSequence method within <code>v</code> on this
      * sequence representation and the given argument.
      *
      * @param v a <code>Visitor</code> value
      * @param state the data to be passed to this sequence's components
      * @return the result of visiting this sequence
-     * @throws hpl.sys.HPLException
+     * @throws SMPLException
      */
     @Override
     public <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException {

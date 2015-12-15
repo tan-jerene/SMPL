@@ -41,7 +41,7 @@ public enum BinOpArith implements BinaryOp<Double, Double> {
             return leftArg % rightArg;
         }
     },
-    CMP("<") {
+    CMP("<") { /************* CMP statements added based on previous syntax - Unsure if correct ************/
         @Override
         public Boolean apply(Double leftArg, Double rightArg) {
             return leftArg < rightArg;

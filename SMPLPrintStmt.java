@@ -15,8 +15,8 @@ public class SMPLPrintStmt extends SMPLStatement {
     ASTExp expression;
 
     public SMPLPrintStmt(String separator, ASTExp expression) {
-        this.separator = separator;
-        this.expression = expression;
+        this.separator = separator; //Determines whether print or println; "" - print, "\n" - println
+        this.expression = expression; //Value to be printed
     }
 
     public  String getSeparator() {

@@ -17,9 +17,9 @@ public class SMPLIfStmt extends SMPLStatement {
 
 
     public SMPLIfStmt(ASTExp comparison, SMPLSequence ifClause, SMPLSequence elseClause) {
-        this.comparison = comparison;
-        this.ifClause = ifClause;
-        this.elseClause = elseClause;
+        this.comparison = comparison; //Comparative Statement eg. (x > y)
+        this.ifClause = ifClause; //Statements if true
+        this.elseClause = elseClause; //Statements if false
     }
 
     public ASTExp getComparison() {

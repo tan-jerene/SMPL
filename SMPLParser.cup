@@ -86,6 +86,7 @@ non terminal ArrayList<ASTExp> expList;   /* non-empty exp list */
 non terminal ArrayList<ASTExp> expListE;   /* potentially empty exp list */
 
 non terminal SMPLFunDef funDef;
+non terminal SMPLFunCall funCall;
 non terminal SMPLFrameExp subFrameExp;
 
 non terminal ArrayList<String> paramList;
@@ -119,28 +120,81 @@ printStatement ::= PRINT expression:e {: RESULT = new SMPLPrintStmt("", e); :} |
 				   PRINTLN expression:e {: RESULT = new SMPLPrintStmt("\n", e); :};
 
 /**********************CONDITIONAL FUNCTIONALITY*********************/
+/* 
+   	** CONDITIONAL STATEMENTS 
+       NON-TERMINALS USED:         
+	       ASTExp comparison            
+	       SMPLSequence stmtList       
+       Last editted:- 15/12/2015_2:00pm
+   	**
+*/
 ifstatement ::= IF comparison:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
 				IF comparison:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
 
+/* 
+   	** FUNCTION DEFINITION SECTION 
+       NON-TERMINALS USED:              
+	       ASTExp comparison
+	       ASTExp expression  
+       Last editted:- 15/12/2015_2:00pm
+   	**
+*/
 comparison ::= comparison:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRExp>(c, m, e); } |
 			   LPAREN comparison:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
+/********************************************************************/
 
+/* 
+   	** FUNCTION DEFINITION SECTION 
+       NON-TERMINALS USED:              
+	       ASTExp expression
+	       ASTExp<AIRExp> term 
+	       SMPLFunCall funCall 
+       Last editted:- 15/12/2015_3:00pm
+   	**
+*/
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
-				PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN | //ADDED BUT UNSURE IF CORRECT
+				PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN | //ADDED FOR pair STATEMENT BUT UNSURE IF CORRECT
 				STRING:str {: RESULT = s :} | //For String assignment
 	        	LPAREN expression:e RPAREN {: RESULT = e; :} |
 	   			funCall:s {: RESULT = s; :}; //Editted:- 14/12/2015_7:39pm
 
+/* 
+   	** FUNCTION DEFINITION SECTION 
+       NON-TERMINALS USED:              
+	       ASTExp<AIRExp> term 
+	       ASTExp<AIRExp> power 
+       Last editted:- 15/12/2015_3:00pm
+   	**
+*/
 term ::= term:t TIMES power:f {: RESULT = new ASTBinaryExp<AIRExp>("*", e, t); :} |
 		 term:t DIV power:f {: RESULT = new ASTBinaryExp<AIRExp>("/", e, t); :} |
 		 term:t MOD power:f {: RESULT = new ASTBinaryExp<AIRExp>("%", e, t); :} |
 		 power:p {: RESULT = p; :}; //Editted:- 14/12/2015_6:30pm
 
+/* 
+   	** FUNCTION DEFINITION SECTION 
+       NON-TERMINALS USED:      
+	       ASTExp<AIRExp> power        
+	       ASTExp<AIRExp> factor 
+       Last editted:- 15/12/2015_3:00pm
+   	**
+*/
 power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); :} |
 		  factor:f {:RESULT = f; :}; //Editted:- 14/12/2015_6:30pm
 
+/* 
+   	** FUNCTION DEFINITION SECTION 
+       NON-TERMINALS USED:              
+	       ASTExp<AIRExp> factor 
+       TERMINALS USED:        
+       	   Integer INTEGER
+       	   Double FRACTION
+       	   Double Real
+       Last editted:- 15/12/2015_3:00pm
+   	**
+*/
 factor ::= INTEGER:int {: RESULT = int; :} |
 		   FRACTION:frac {: RESULT = frac; :} |
 		   REAL:rl {:RESULT = rl; :} |
@@ -149,8 +203,9 @@ factor ::= INTEGER:int {: RESULT = int; :} |
 /*
 	** FUNCTION CALL SECTION
 	   NON-TERMINAL USED:
-	   String VAR
-	   ArrayList<ASTExp> expListE
+	   		ArrayList<ASTExp> expListE
+       TERMINALS USED:
+	   		String VAR
 	**
 */
 funCall ::= VAR:name LPAREN expListE:p RPAREN {:
@@ -158,10 +213,11 @@ funCall ::= VAR:name LPAREN expListE:p RPAREN {:
 
 /* 
    	** FUNCTION DEFINITION SECTION 
-       NON-TERMINALS USED:         
-       String VAR                  
-       ArrayList<String> paramListE
-       SMPLSequence stmtList       
+       NON-TERMINALS USED:              
+	       ArrayList<String> paramListE
+	       SMPLSequence stmtList   
+       TERMINALS USED:        
+       	   String VAR     
        Last editted:- 14/12/2015_5:00pm
    	**
 */

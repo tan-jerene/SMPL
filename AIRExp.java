@@ -11,7 +11,7 @@ public abstract class AIRExp extends ASTExp<AIRExp> {
     public AIRExp() {
 	super();
     }
-
+    /**************FUNCTIONALITY PROVIDED BY BinaryOpArith*************/
     public abstract <S, T> T visit(AIRVisitor<S, T> v, S arg) throws HPLException;
 
     @Override

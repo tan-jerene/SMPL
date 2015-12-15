@@ -13,7 +13,7 @@ public interface SMPLVisitor<S, T> extends ASTVisitor<SMPLExp, S, T> {
 
     public T visitSMPLAssignment(SMPLAssignment assignment, S state) throws SMPLException ;
 
-    public T visitSMPLPrintStmt(SMPLPrintStmt printStmt, S state) throws SMPLException;
+    public T visitSMPLPrintStmt(SMPLPrintStmt printStmt, S state) throws SMPLException; 
     
     public T visitSMPLWaitStmt(SMPLWaitStmt waitStmt, S state) throws SMPLException;
 
@@ -21,6 +21,6 @@ public interface SMPLVisitor<S, T> extends ASTVisitor<SMPLExp, S, T> {
 
     public T visitSMPLFunCall(SMPLFunCall funCall, S state) throws SMPLException;
     
-    public T visitSMPLFunDef(SMPLFunDef funDef, S state) throws SMPLException; //added for SMPLFunDef Nov 15, 4:51pm
+    public T visitSMPLFunDef(SMPLFunDef funDef, S state) throws SMPLException; 
 
 }

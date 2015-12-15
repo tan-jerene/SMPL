@@ -3,7 +3,7 @@ public class SMPLProgram extends SMPLStatement {
     protected SMPLSequence statements;
 
     /**
-     * Creates a new <code>PIRProgram</code> instance, the Painter
+     * Creates a new <code>SMPLProgram</code> instance, the Painter
      * Intermediate Representation of a program.  A program is a sequence
      * of statements.
      *
@@ -18,13 +18,13 @@ public class SMPLProgram extends SMPLStatement {
     }
 
     /**
-     * Call the visitPIRProgram method within <code>v</code> on this
+     * Call the visitSMPLProgram method within <code>v</code> on this
      * program representation and the given argument.
      *
      * @param v a <code>Visitor</code> value
      * @param state the data to be passed to this program's components
      * @return the result of visiting this program
-     * @throws hpl.sys.HPLException if an error was encountered while visiting 
+     * @throws SMPLException if an error was encountered while visiting 
      * the statements and sub-expressions of this program
      */
     @Override

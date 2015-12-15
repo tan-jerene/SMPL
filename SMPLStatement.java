@@ -12,7 +12,7 @@ public abstract class SMPLStatement extends ASTNode {
     // abstract class placeholder for statements
 
     /**
-     * Call the <code>visitPIRStatement</code> method in the given visitor.
+     * Call the <code>visitSMPLStatement</code> method in the given visitor.
      * @param <S> The type of the state used by the visitor
      * @param <T> The return type of the visitor
      * @param v The visitor visiting this node.
@@ -20,7 +20,7 @@ public abstract class SMPLStatement extends ASTNode {
      * encountered this statement.
      * @return The result of calling the relevant statement visiting method of the given 
      * visitor.
-     * @throws hpl.sys.HPLException     
+     * @throws SMPLException     
      */
-        public abstract <S, T> T visit(HPLVisitor<S, T> v, S state) throws HPLException;
+        public abstract <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException;
 }
