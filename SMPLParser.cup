@@ -106,7 +106,8 @@ stmtList ::= stmtList:seq stmt:s {:
 
 stmt ::=   assignment:a {: RESULT = a; :} |
 		   waitStmt:w {: RESULT = w; :} |
-		   expression:e {: RESULT = e:};
+		   expression:e {: RESULT = e; :} |
+		   ifstatement:i {: RESULT = i; :};
 
 waitStmt ::= WAIT arithExp:t {: RESULT = new SMPLWaitStmt(t); :};
 
