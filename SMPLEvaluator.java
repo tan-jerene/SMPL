@@ -49,7 +49,7 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
      * @throws HPLException
      */
     @Override
-    public Painter visitPIRAssignment(PIRAssignment assignment,
+    public Object visitPIRAssignment(PIRAssignment assignment,
                                       HPLContext context) throws HPLException {
 	Painter result = assignment.getExp().visit(this, context);
 	context.putP(assignment.getVar(), result);

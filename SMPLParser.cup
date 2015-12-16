@@ -60,7 +60,7 @@ terminal LET, WAIT;
 /* Arithmetic operators */ 
 terminal PLUS, MINUS, TIMES, DIV, MOD;
 /* Punctuation */
-terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, IF, THEN;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN;
 
 terminal Integer INTEGER;
 terminal Double FRACTION;
@@ -78,6 +78,13 @@ non terminal SMPLPaintStmt printStmt;
 
 non terminal ASTExp expression;
 non terminal ASTExp comparison;
+non terminal ASTPairExp pairExp;
+non terminal ASTCarExp carExp;
+non terminal ASTCdrExp cdrExp;
+non terminal ASTListExp listExp;
+non terminal ASTEqvExp eqvExp;
+non terminal ASTEqualExp equalExp;
+non terminal ASTSubstrExp substrExp;
 non terminal ASTExp<AIRExp> term;
 non terminal ASTExp<AIRExp> power;
 non terminal ASTExp<AIRExp> factor;
@@ -132,7 +139,7 @@ ifstatement ::= IF comparison:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
 				IF comparison:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
 
 /* 
-   	** FUNCTION DEFINITION SECTION 
+   	** COMPARISON
        NON-TERMINALS USED:              
 	       ASTExp comparison
 	       ASTExp expression  
@@ -145,7 +152,7 @@ comparison ::= comparison:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRE
 /********************************************************************/
 
 /* 
-   	** FUNCTION DEFINITION SECTION 
+   	** EXPRESSION 
        NON-TERMINALS USED:              
 	       ASTExp expression
 	       ASTExp<AIRExp> term 
@@ -155,13 +162,35 @@ comparison ::= comparison:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRE
 */
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
-				PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN | //ADDED FOR pair STATEMENT BUT UNSURE IF CORRECT
-				STRING:str {: RESULT = s :} | //For String assignment
+				pairExp:p {: RESULT = p; :} |
+				carExp:car {: RESULT = car; :} |
+				cdrExp:cdr {: RESULT = cdr; :} |
+				listExp:list {: RSULT = list; :} |
+				eqvExp:eqv {: RESULT = eqv; :} |
+				equalExp:equal {: RESULT = equal; :} |
+				substrExp:sub {: RESULT = sub; :} |
 	        	LPAREN expression:e RPAREN {: RESULT = e; :} |
-	   			funCall:s {: RESULT = s; :}; //Editted:- 14/12/2015_7:39pm
+	   			funCall:s {: RESULT = s; :} |
+				term:t {: RESULT = t :};
+
+pairExp ::= PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTPairExp(e1, e2); :};
+
+carExp ::= CAR expression:e {: RESULT = new ASTCarExp(e); :};
+
+cdrExp ::= CDR expression:e {: RESULT = new ASTCdrExp(e); :};
+
+listExp ::= LIST LPAREN LBRACKET expList:e RBRACKET RPAREN {: RESULT = new ASTListExp(e); :};
+
+eqvExp ::= EQV LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTEqvExp(e1, e2); :};
+
+equalExp ::= EQUAL LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTEqualExp(e1, e2); :};
+
+substrExp ::= EQUAL LPAREN STRING:str COMMA INTEGER:int COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(str, int, int2); :};
+
+
 
 /* 
-   	** FUNCTION DEFINITION SECTION 
+   	** TERM
        NON-TERMINALS USED:              
 	       ASTExp<AIRExp> term 
 	       ASTExp<AIRExp> power 
@@ -174,7 +203,7 @@ term ::= term:t TIMES power:f {: RESULT = new ASTBinaryExp<AIRExp>("*", e, t); :
 		 power:p {: RESULT = p; :}; //Editted:- 14/12/2015_6:30pm
 
 /* 
-   	** FUNCTION DEFINITION SECTION 
+   	** POWER
        NON-TERMINALS USED:      
 	       ASTExp<AIRExp> power        
 	       ASTExp<AIRExp> factor 
@@ -185,7 +214,7 @@ power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); 
 		  factor:f {:RESULT = f; :}; //Editted:- 14/12/2015_6:30pm
 
 /* 
-   	** FUNCTION DEFINITION SECTION 
+   	** FACTOR 
        NON-TERMINALS USED:              
 	       ASTExp<AIRExp> factor 
        TERMINALS USED:        
@@ -198,6 +227,7 @@ power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); 
 factor ::= INTEGER:int {: RESULT = int; :} |
 		   FRACTION:frac {: RESULT = frac; :} |
 		   REAL:rl {:RESULT = rl; :} |
+		   STRING:str {: RESULT = str; :} |
 		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryOperator("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
 
 /*

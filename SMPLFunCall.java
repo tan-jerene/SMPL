@@ -17,9 +17,9 @@
  */
 public class SMPLFunCall extends ASTExp {
     private final String funName;
-    private final ArrayList<ASTExp<SMPLExp>> fArgExps;
+    private final ArrayList<ASTExp> fArgExps;
     
-    public SMPLFunCall(String fnName, ArrayList<ASTExp<PIRExp>> fArgs) {
+    public SMPLFunCall(String fnName, ArrayList<ASTExp> fArgs) {
         funName = fnName;
         fArgExps = fpArgs;
     }
@@ -36,7 +36,7 @@ public class SMPLFunCall extends ASTExp {
      *
      * @return The list of function argument expressions in this call expression
      */
-    public ArrayList<ASTExp<PIRExp>> getFunctionArgExps() {
+    public ArrayList<ASTExp> getFunctionArgExps() {
         return fArgExps;
     }
     
