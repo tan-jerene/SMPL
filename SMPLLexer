@@ -104,6 +104,18 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    list { return new Symbol(sym.LIST); }
 <YYINITIAL>    LIST { return new Symbol(sym.LIST); }
 
+<YYINITIAL>    size { return new Symbol(sym.SIZE); }
+<YYINITIAL>    SIZE { return new Symbol(sym.SIZE); }
+
+<YYINITIAL>    eqv { return new Symbol(sym.EQV); }
+<YYINITIAL>    EQV { return new Symbol(sym.EQV); }
+
+<YYINITIAL>    equal { return new Symbol(sym.EQUAL); }
+<YYINITIAL>    EQUAL { return new Symbol(sym.EQUAL); }
+
+<YYINITIAL>    substr { return new Symbol(sym.SUBSTR); }
+<YYINITIAL>    SUBSTR { return new Symbol(sym.SUBSTR); }
+
 <YYINITIAL>    if { return new Symbol(sym.IF); }
 <YYINITIAL>    IF { return new Symbol(sym.IF); }
 
