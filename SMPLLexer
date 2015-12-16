@@ -71,8 +71,8 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    ")" { return new Symbol(sym.RPAREN);}
 <YYINITIAL>    "[" { return new Symbol(sym.LBRACKET);}
 <YYINITIAL>    "]" { return new Symbol(sym.RBRACKET);}
-<YYINITIAL>    "{" { return new Symbol(sym.LCBRACKET);} //Adding curly brackets - 14/12/2015_4:00pm
-<YYINITIAL>    "}" { return new Symbol(sym.RCBRACKET);} //Adding curly brackets - 14/12/2015_4:00pm
+<YYINITIAL>    "{" { return new Symbol(sym.LCBRACKET);} 
+<YYINITIAL>    "}" { return new Symbol(sym.RCBRACKET);} 
 
 <YYINITIAL>    end { return new Symbol(sym.END);}
 <YYINITIAL>    END { return new Symbol(sym.END);}
@@ -95,6 +95,15 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    pair { return new Symbol(sym.PAIR); }
 <YYINITIAL>    PAIR { return new Symbol(sym.PAIR); }
 
+<YYINITIAL>    car { return new Symbol(sym.CAR); }
+<YYINITIAL>    CAR { return new Symbol(sym.CAR); }
+
+<YYINITIAL>    cdr { return new Symbol(sym.CDR); }
+<YYINITIAL>    CDR { return new Symbol(sym.CDR); }
+
+<YYINITIAL>    list { return new Symbol(sym.LIST); }
+<YYINITIAL>    LIST { return new Symbol(sym.LIST); }
+
 <YYINITIAL>    if { return new Symbol(sym.IF); }
 <YYINITIAL>    IF { return new Symbol(sym.IF); }
 
@@ -113,6 +122,7 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    "/" { return new Symbol(sym.DIV); }
 <YYINITIAL>    "%" { return new Symbol(sym.MOD); }
 <YYINITIAL>    "^" { return new Symbol(sym.POW); }
+<YYINITIAL>    "?" { return new Symbol(sym.QUERY); }
 
 <YYINITIAL>	{alpha}+{alphanum}* {
 			// IDENTIFIER
