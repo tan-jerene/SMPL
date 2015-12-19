@@ -63,6 +63,8 @@ terminal PLUS, MINUS, TIMES, DIV, MOD;
 terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN;
 
 terminal Integer INTEGER;
+terminal Integer HEXINT;
+terminal Integer BININT;
 terminal Double FRACTION;
 terminal Double REAL;
 terminal String VAR;
@@ -227,8 +229,10 @@ power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); 
 factor ::= INTEGER:int {: RESULT = int; :} |
 		   FRACTION:frac {: RESULT = frac; :} |
 		   REAL:rl {:RESULT = rl; :} |
+		   HEXINT:h {: RESULT = h; :} |
+		   BININT:b {: RESULT = b; :} |
 		   STRING:str {: RESULT = str; :} |
-		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryOperator("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
+		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
 
 /*
 	** FUNCTION CALL SECTION

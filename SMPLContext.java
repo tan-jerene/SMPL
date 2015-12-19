@@ -8,23 +8,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
- * Created on 31-Oct-2015
+ * @author ThreeMusketeers
  */
 public interface SMPLContext {
 	/**
 	 * Constructor?
 	 */
-
-    /**
-     * Resolve a frame relative to the current frame (coordinate system), and
-     * make the result be the new current frame in a newly created context.
-     * @param f The frame to be derived from the current frame.
-     * @return a newly created context that has identical components as this one,
-     * except that its current frame is the effective frame denoted by the given
-     * one.
-     */
-    public HPLContext composeFrame(PainterFrame f);
 
     /**
      * Create a new context in which the function environment is extended with

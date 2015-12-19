@@ -155,6 +155,18 @@ alphanum = ({alpha}|{num})
 			return new Symbol(sym.REAL, new Double(yytext()));
 		}
 
+<YYINITIAL> "#x"{num}+ {
+			int val = Integer.decode("0"+yytext().substring(1,yytext().length()));
+			String val1 = "" + val;
+			return new Symbol(sym.HEXINT, new Integer(val1));
+		}
+
+<YYINITIAL> "#b"{num}+ {
+			int val = Integer.parseInt(yytext().substring(2,yytext().length()), 2);
+			String val1 = "" + val;
+			return new Symbol(sym.BININT, new Integer(val1));
+		}
+
 <YYINITIAL>	\" {
 			yybegin(STRING);
 		}
