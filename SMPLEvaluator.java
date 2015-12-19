@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
+public class SMPLEvaluator implements SMPLVisitor<HPLContext, String> {
 
     private final ArithEvaluator arithEval;
 
@@ -8,7 +8,7 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
         this.arithEval = new ArithEvaluator();
     }
 
-    public Painter getResult() {
+    public String getResult() {
 	   return lastResult;
     }
 
@@ -166,10 +166,10 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
 
 
     @Override
-    public Painter visitPIRPaintStmt(PIRPaintStmt paintStmt, HPLContext env)
+    public String visitSMPLPrintStmt(SMPLPrintStmt printStmt, HPLContext env)
 	throws HPLException {
-        PIRFrameExp frameExp = paintStmt.getFrameExp();
-        ASTExp<PIRExp> painterExp = paintStmt.getPainterExp();
+        String separator = printStmt.getSeparator();
+        ASTExp expression = printStmt.getExpression();
         Painter p = painterExp.visit(this, env);
 	// We cheat a little to evaluate frames by having a dedicated eval
 	// method.  If there were more frame special forms, it would be better
@@ -180,19 +180,7 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
     }
 
     @Override
-    public Painter visitPIRWaitStmt(PIRWaitStmt waitStmt, HPLContext state) throws HPLException {
-        ASTExp<AIRExp> durationExp = waitStmt.getDuration();
-        double duration = durationExp.visit(arithEval, state.getNumEnv());
-        try {
-            Thread.sleep((long) duration);
-            return Painter.DEFAULT;
-        } catch (InterruptedException ex) {
-            throw new HPLException("Interrupted while waiting");
-        }
-    }
-
-    @Override
-    public Painter visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
+    public String visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
         ASTExp predicate = ifStmt.getPredicate();
         double val = predicate.visit(arithEval, state.getNumEnv());
         if(val == 1.0){

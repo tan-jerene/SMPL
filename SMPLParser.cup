@@ -123,10 +123,10 @@ stmt ::=   assignment:a {: RESULT = a; :} |
 
 waitStmt ::= WAIT arithExp:t {: RESULT = new SMPLWaitStmt(t); :};
 
-assignment ::= VAR:v ASSIGN comparison:c {:RESULT = new ExpAssign(v, c); :};
+assignment ::= VAR:v ASSIGN cmpExp:c {:RESULT = new ExpAssign(v, c); :};
 
-printStatement ::= PRINT expression:e {: RESULT = new SMPLPrintStmt("", e); :} |
-				   PRINTLN expression:e {: RESULT = new SMPLPrintStmt("\n", e); :};
+printStatement ::= PRINT cmpExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
+				   PRINTLN cmpExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
 
 /**********************CONDITIONAL FUNCTIONALITY*********************/
 /* 

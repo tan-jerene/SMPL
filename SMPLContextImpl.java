@@ -13,16 +13,19 @@ public class SMPLContextImpl implements SMPLContext {
 	private HPLEnvironment<SMPLFunction> fnEnv;
 	private HPLEnvironment<Double> dEnv;
 	private HPLEnvironment<String> sEnv;
+    private HPLEnvironment<Boolean> bEnv;
 
 	 public HPLContextImpl(HPLEnvironment<HPLFunction> fnEnv, HPLEnvironment<Double> dEnv){
 		this.fnEnv = fnEnv;
 		this.dEnv = dEnv;
 		this.sEnv = sEnv;
+        this.bEnv = bEnv;
 	 }
 	 public HPLContextImpl(){
 		this.fnEnv = null;
 		this.dEnv = null;
 		this.sEnv = null;
+        this.bEnv = null;
 	 }
 
     /**
@@ -34,7 +37,7 @@ public class SMPLContextImpl implements SMPLContext {
      * but leaving all the other components of the context unchanged.
      */
     public SMPLContext extendF(ArrayList<String> fParams, ArrayList<SMPLFunction> args){ 
-		return new SMPLContextImpl(new SMPLEnvironment<SMPLFunction>(this.fnEnv, fParams, args), this.dEnv, this.sEnv, this.frm1);
+		return new SMPLContextImpl(new SMPLEnvironment<SMPLFunction>(this.fnEnv, fParams, args), this.dEnv, this.sEnv, this.bEnv);
 	}
 
     /**
@@ -47,7 +50,7 @@ public class SMPLContextImpl implements SMPLContext {
      * but leaving all the other components of the context unchanged.
      */
     public SMPLContext extendN(ArrayList<String> nParams, ArrayList<Double> vals){ 
-		return new SMPLContextImpl(this.fnEnv, new SMPLEnvironment<Double>(this.dEnv, nParams, vals), this.sEnv, this.frm1);
+		return new SMPLContextImpl(this.fnEnv, new SMPLEnvironment<Double>(this.dEnv, nParams, vals), this.sEnv, this.bEnv);
 	}
 
     /**
@@ -58,9 +61,21 @@ public class SMPLContextImpl implements SMPLContext {
      * @return A newly created context containing the new String environment,
      * but leaving all the other components of the context unchanged.
      */
-    public SMPLContext extendP(ArrayList<String> pParams, ArrayList<Sting> args){  
-		return new SMPLContextImpl(this.fnEnv, this.dEnv, new SMPLEnvironment<Painter>(this.sEnv, pParams, args), this.frm1);
+    public SMPLContext extendS(ArrayList<String> pParams, ArrayList<Sting> args){  
+		return new SMPLContextImpl(this.fnEnv, this.dEnv, new SMPLEnvironment<String>(this.sEnv, pParams, args), this.bEnv);
 	}
+
+    /**
+     * Create a new context in which the String environment is extended with
+     * new bindings.
+     * @param pParams The names to be bound in the new String environment frame.
+     * @param args The corresponding values for the names
+     * @return A newly created context containing the new String environment,
+     * but leaving all the other components of the context unchanged.
+     */
+    public SMPLContext extendB(ArrayList<String> pParams, ArrayList<Sting> args){  
+        return new SMPLContextImpl(this.fnEnv, this.dEnv, this.sEnv, new SMPLEnvironment<Boolean>(this.bEnv, pParams, args));
+    }
 
     /**
      * Lookup a reference to a SMPL function.
@@ -78,7 +93,7 @@ public class SMPLContextImpl implements SMPLContext {
      * @return The (resultant) frame associated with this context.
      */
     public PainterFrame getFrame(){
-		return this.frm1;
+		return this.bEnv;
 	}
 
     /**
