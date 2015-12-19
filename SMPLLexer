@@ -139,7 +139,7 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>	{alpha}+{alphanum}* {
 			// IDENTIFIER
 			return new Symbol(sym.VAR, yytext());
-		}
+		}((([a-z ']*)\. [A-Z]([a-z ']*))|(([a-z ']*)\? [A-Z ]([a-z ']*))|(([a-z ']*)\! [A-Z]([a-z ']*))|(([a-z !.']*)\' [A-Z]([a-z ']*))|(([a-z !.']*)\" [A-Z]([a-z ']*))|(([a-z !.']*)\) [A-Z]([a-z ']*)))
 
 <YYINITIAL>    	{num}+ {
 	       		// INTEGER

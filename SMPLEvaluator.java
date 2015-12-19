@@ -191,6 +191,20 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
         }
     }
 
+    @Override
+    public Painter visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
+        ASTExp predicate = ifStmt.getPredicate();
+        double val = predicate.visit(arithEval, state.getNumEnv());
+        if(val == 1.0){
+            PIRSequence consequent = ifStmt.getConsequent();
+            return consequent.visit(this, state);
+        }
+        else{
+            PIRSequence alternate = ifStmt.getAlternate();
+            return alternate.visit(this, state);
+        }
+    }
+
     /**
      * Evaluate a painter variable reference.
      * @param var The variable referencing a painter

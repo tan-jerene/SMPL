@@ -77,7 +77,7 @@ non terminal SMPLStatement waitStmt;
 non terminal SMPLPaintStmt printStmt;
 
 non terminal ASTExp expression;
-non terminal ASTExp comparison;
+non terminal ASTExp cmpExp;
 non terminal ASTPairExp pairExp;
 non terminal ASTCarExp carExp;
 non terminal ASTCdrExp cdrExp;
@@ -135,19 +135,19 @@ printStatement ::= PRINT expression:e {: RESULT = new SMPLPrintStmt("", e); :} |
        Last editted:- 15/12/2015_2:00pm
    	**
 */
-ifstatement ::= IF comparison:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
-				IF comparison:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
+ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
+				IF cmpExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
 
 /* 
    	** COMPARISON
        NON-TERMINALS USED:              
-	       ASTExp comparison
+	       ASTExp cmpExp
 	       ASTExp expression  
        Last editted:- 15/12/2015_2:00pm
    	**
 */
-comparison ::= comparison:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRExp>(c, m, e); } |
-			   LPAREN comparison:c RPAREN {: RESULT = c; :} |
+cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRExp>(c, m, e); } |
+			   LPAREN cmpExp:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
 /********************************************************************/
 

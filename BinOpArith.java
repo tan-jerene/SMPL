@@ -41,40 +41,69 @@ public enum BinOpArith implements BinaryOp<Double, Double> {
             return leftArg % rightArg;
         }
     },
-    CMP("<") { /************* CMP statements added based on previous syntax - Unsure if correct ************/
+    LTHAN("<") { /************* CMP statements added based on previous syntax - Unsure if correct ************/
         @Override
-        public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg < rightArg;
+        public Double apply(Double leftArg, Double rightArg) {
+            if(leftArg < rightArg){
+                return 1.0;
+            else{
+                return 0.0;
+            }
         }
     },
-    CMP(">") {
+    GTHAN(">") {
         @Override
-        public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg > rightArg;
+        public Double apply(Double leftArg, Double rightArg) {
+            if(leftArg > rightArg){
+                return 1.0;
+            }
+            else{
+                return 0.0;
+            }
         }
     },
-    CMP("<=") {
+    LTHANE("<=") {
         @Override
-        public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg <= rightArg;
+        public Double apply(Double leftArg, Double rightArg) {
+            if(leftArg <= rightArg){
+                return 1.0;
+            }
+            else{
+                return 0.0;
+            }
         }
     },
-    CMP(">=") {
+    GTHANE(">=") {
         @Override
-        public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg >= rightArg;
+        public Double apply(Double leftArg, Double rightArg) {
+            if(leftArg >= rightArg){
+                return 1.0;
+            }
+            else{
+                return 0.0;
+            }
         }
     },
-    CMP("==") {
+    EQUAL("==") {
         @Override
-        public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg == rightArg;
+        public Double apply(Double leftArg, Double rightArg) {
+            if(leftArg == rightArg){
+                return 1.0;
+            }
+            else{
+                return 0.0;
+            }
         }
     },
-    CMP("!=") {
+    NEQUAL("!=") {
         @Override
-        public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg != rightArg;
+        public Double apply(Double leftArg, Double rightArg) {
+            if(leftArg != rightArg){
+                return 1.0;
+            }
+            else{
+                return 0.0;
+            }
         }
     },
     ;

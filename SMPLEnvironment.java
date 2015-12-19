@@ -1,12 +1,12 @@
 import java.util.*;
 
 /**
- * An instance of class <code>HPLEnvironment</code> maintains a
+ * An instance of class <code>SMPLEnvironment</code> maintains a
  * collection of bindings from valid identifiers to T objects.
  * It supports storing and retrieving bindings, just as would be
  * expected in any dictionary.
  *
- * @author <a href="mailto:dcoore@uwimona.edu.jm">Daniel Coore</a>
+ * @author 
  * @version 1.0
  * @param <T> The type of datum to be bound to variables in this environment
  */
@@ -14,20 +14,18 @@ public class SMPLEnvironment<T> {
 
     HashMap<String, T> dictionary;
     SMPLEnvironment<T> parent;
-//    HashMap<String, HPLFunction> fnBindings;
 
     /**
-     * Create a new (empty) top level HPL Environment.
+     * Create a new (empty) top level SMPL Environment.
      *
      */
     public SMPLEnvironment() {
     	parent = null;		// global by default
     	dictionary = new HashMap<>();
-//        fnBindings = new HashMap<>();
     }
 
     /**
-     * Creates a new <code>HPLEnvironment</code> instance that is
+     * Creates a new <code>SMPLEnvironment</code> instance that is
      * initialised with the given collection of bindings (presented as
      * separate arrays of names and values), and extends the given
      * environment.
@@ -74,34 +72,6 @@ public class SMPLEnvironment<T> {
 	else
 	    return result;
     }
-//    
-//    /**
-//     * Store a binding to a function.
-//     * @param id The name of the function
-//     * @param fn The function object to be bound.
-//     */
-//    public void putFn(String id, HPLFunction fn) {
-//        fnBindings.put(id, fn);
-//    }
-//    
-//    /**
-//     * Retrieve the function bound to the given name.
-//     * @param id The name of the function
-//     * @return The value of the nearest binding for the given name in the 
-//     * function name space.
-//     * @throws HPLException if no function is bound to the given name either in
-//     * this frame's function namespace or in that of any of its ancestors.
-//     */
-//    public HPLFunction getFn(String id) throws HPLException {
-//        HPLFunction result = fnBindings.get(id);
-//        if (result == null)
-//            if (parent == null)
-//                throw new HPLException("Unbound function " + id);
-//            else
-//                return parent.getFn(id);
-//        else
-//            return result;
-//    }
 
     /**
      * Create a string representation of this HPL environment.
