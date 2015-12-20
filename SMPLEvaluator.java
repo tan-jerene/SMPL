@@ -170,20 +170,15 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, String> {
 	throws HPLException {
         String separator = printStmt.getSeparator();
         ASTExp expression = printStmt.getExpression();
-        Painter p = painterExp.visit(this, env);
-	// We cheat a little to evaluate frames by having a dedicated eval
-	// method.  If there were more frame special forms, it would be better
-	// to create a Frame Visitor interface, and handle it like AIRVisitor
-        PainterFrame frame = frameExp.eval(env);
-        p.render(screen, frame);
+
         return p;
     }
 
     @Override
     public String visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
-        ASTExp predicate = ifStmt.getPredicate();
-        double val = predicate.visit(arithEval, state.getNumEnv());
-        if(val == 1.0){
+        ASTCmpBinaryExp predicate = ifStmt.getPredicate();
+        Boolean val = predicate.visit(arithEval, state.getNumEnv()).booleanValue();
+        if(val){
             PIRSequence consequent = ifStmt.getConsequent();
             return consequent.visit(this, state);
         }

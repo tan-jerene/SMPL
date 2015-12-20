@@ -60,7 +60,7 @@ terminal LET, WAIT;
 /* Arithmetic operators */ 
 terminal PLUS, MINUS, TIMES, DIV, MOD;
 /* Punctuation */
-terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN, NOT, AND, OR;
 
 terminal Integer INTEGER;
 terminal Integer HEXINT;
@@ -78,8 +78,9 @@ non terminal SMPLStatement stmt;
 non terminal SMPLStatement waitStmt;
 non terminal SMPLPaintStmt printStmt;
 
-non terminal ASTExp expression;
-non terminal ASTExp cmpExp;
+non terminal ASTUnaryExp<AIRExp> notExp;
+non terminal ASTBinaryExp<AIRExp> expression;
+non terminal ASTCmpBinaryExp<AIRExp> cmpExp;
 non terminal ASTPairExp pairExp;
 non terminal ASTCarExp carExp;
 non terminal ASTCdrExp cdrExp;
@@ -140,6 +141,22 @@ printStatement ::= PRINT cmpExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
 ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
 				IF cmpExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
 
+
+/* 
+   	** TOP-LEVEL Expressions
+       Last editted:- 19/12/2015_2:00pm
+   	**
+*/
+orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTBinaryExp<AIRExp>(o, "or", a); :} |
+		   andStmt:a {: RESULT = a; :};
+ 
+andStmt ::= andStmt:a AND notStmt:n {: RESULT = new ASTBinaryExp<AIRExp>(a, "and", n); :} |
+			notStmt:n {: RESULT = n; :};
+
+notStmt ::= NOT cmpExp:c {: RESULT = new ASTUnaryExp<AIRExp>("not", e); :} |
+			cmpExp:c {: RESULT = c; :};
+
+
 /* 
    	** COMPARISON
        NON-TERMINALS USED:              
@@ -148,7 +165,7 @@ ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
        Last editted:- 15/12/2015_2:00pm
    	**
 */
-cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRExp>(c, m, e); } |
+cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c, m, e); } | 
 			   LPAREN cmpExp:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
 /********************************************************************/

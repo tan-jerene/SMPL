@@ -44,7 +44,8 @@ public interface SMPLContext {
      * @return A newly created context containing the new painter environment,
      * but leaving all the other components of the context unchanged.
      */
-    public HPLContext extendP(ArrayList<String> pParams, ArrayList<Painter> args);
+    public HPLContext extendS(ArrayList<String> pParams, ArrayList<String> args);
+    public HPLContext extendB(ArrayList<String> pParams, ArrayList<Boolean> args);
 
     /**
      * Lookup a reference to a HPL function.

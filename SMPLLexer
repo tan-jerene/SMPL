@@ -119,6 +119,10 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    if { return new Symbol(sym.IF); }
 <YYINITIAL>    IF { return new Symbol(sym.IF); }
 
+<YYINITIAL>    or|OR { return new Symbol(sym.OR); }
+<YYINITIAL>    and|AND { return new Symbol(sym.AND); }
+<YYINITIAL>    not|NOT { return new Symbol(sym.NOT); }
+
 <YYINITIAL>    then { return new Symbol(sym.THEN); }
 <YYINITIAL>    THEN { return new Symbol(sym.THEN); }
 
