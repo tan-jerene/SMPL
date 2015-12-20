@@ -129,24 +129,12 @@ assignment ::= VAR:v ASSIGN cmpExp:c {:RESULT = new ExpAssign(v, c); :};
 printStatement ::= PRINT cmpExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
 				   PRINTLN cmpExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
 
-/**********************CONDITIONAL FUNCTIONALITY*********************/
-/* 
-   	** CONDITIONAL STATEMENTS 
-       NON-TERMINALS USED:         
-	       ASTExp comparison            
-	       SMPLSequence stmtList       
-       Last editted:- 15/12/2015_2:00pm
-   	**
-*/
+
 ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
 				IF cmpExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
 
 
-/* 
-   	** TOP-LEVEL Expressions
-       Last editted:- 19/12/2015_2:00pm
-   	**
-*/
+
 orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTBinaryExp<AIRExp>(o, "or", a); :} |
 		   andStmt:a {: RESULT = a; :};
  
@@ -157,28 +145,12 @@ notStmt ::= NOT cmpExp:c {: RESULT = new ASTUnaryExp<AIRExp>("not", e); :} |
 			cmpExp:c {: RESULT = c; :};
 
 
-/* 
-   	** COMPARISON
-       NON-TERMINALS USED:              
-	       ASTExp cmpExp
-	       ASTExp expression  
-       Last editted:- 15/12/2015_2:00pm
-   	**
-*/
+
 cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c, m, e); } | 
 			   LPAREN cmpExp:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
-/********************************************************************/
 
-/* 
-   	** EXPRESSION 
-       NON-TERMINALS USED:              
-	       ASTExp expression
-	       ASTExp<AIRExp> term 
-	       SMPLFunCall funCall 
-       Last editted:- 15/12/2015_3:00pm
-   	**
-*/
+
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
 				pairExp:p {: RESULT = p; :} |
@@ -208,41 +180,17 @@ substrExp ::= EQUAL LPAREN STRING:str COMMA INTEGER:int COMMA INTEGER:int2 RPARE
 
 
 
-/* 
-   	** TERM
-       NON-TERMINALS USED:              
-	       ASTExp<AIRExp> term 
-	       ASTExp<AIRExp> power 
-       Last editted:- 15/12/2015_3:00pm
-   	**
-*/
 term ::= term:t TIMES power:f {: RESULT = new ASTBinaryExp<AIRExp>("*", e, t); :} |
 		 term:t DIV power:f {: RESULT = new ASTBinaryExp<AIRExp>("/", e, t); :} |
 		 term:t MOD power:f {: RESULT = new ASTBinaryExp<AIRExp>("%", e, t); :} |
 		 power:p {: RESULT = p; :}; //Editted:- 14/12/2015_6:30pm
 
-/* 
-   	** POWER
-       NON-TERMINALS USED:      
-	       ASTExp<AIRExp> power        
-	       ASTExp<AIRExp> factor 
-       Last editted:- 15/12/2015_3:00pm
-   	**
-*/
+
+
 power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); :} |
 		  factor:f {:RESULT = f; :}; //Editted:- 14/12/2015_6:30pm
 
-/* 
-   	** FACTOR 
-       NON-TERMINALS USED:              
-	       ASTExp<AIRExp> factor 
-       TERMINALS USED:        
-       	   Integer INTEGER
-       	   Double FRACTION
-       	   Double Real
-       Last editted:- 15/12/2015_3:00pm
-   	**
-*/
+
 factor ::= INTEGER:int {: RESULT = int; :} |
 		   FRACTION:frac {: RESULT = frac; :} |
 		   REAL:rl {:RESULT = rl; :} |
@@ -251,27 +199,12 @@ factor ::= INTEGER:int {: RESULT = int; :} |
 		   STRING:str {: RESULT = str; :} |
 		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
 
-/*
-	** FUNCTION CALL SECTION
-	   NON-TERMINAL USED:
-	   		ArrayList<ASTExp> expListE
-       TERMINALS USED:
-	   		String VAR
-	**
-*/
+
+
 funCall ::= VAR:name LPAREN expListE:p RPAREN {:
 		RESULT = new SMPLFunCall(name, p); :} ; //
 
-/* 
-   	** FUNCTION DEFINITION SECTION 
-       NON-TERMINALS USED:              
-	       ArrayList<String> paramListE
-	       SMPLSequence stmtList   
-       TERMINALS USED:        
-       	   String VAR     
-       Last editted:- 14/12/2015_5:00pm
-   	**
-*/
+
 
 funDef ::= DEF VAR:name PROC LPAREN paramListE:p RPAREN LCBRACKET stmtList:s RCBRACKET {:
 			RESULT = new SMPLFunDef(name, p, s);
