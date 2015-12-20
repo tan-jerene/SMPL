@@ -1,6 +1,3 @@
-//package hpl.lang;
-
-
 import java_cup.runtime.*;
 import java.io.*;
 import java.util.*;
@@ -146,6 +143,7 @@ tlExp ::= pairExp:p {: RESULT = p; :} |
 		  equalExp:equal {: RESULT = equal; :} |
 		  substrExp:sub {: RESULT = sub; :} |
 		  orStmt:o {: RESULT = o; :} |
+		  STRING:str {: RESULT = str; :} |
    		  funCall:s {: RESULT = s; :};
 
 
@@ -161,7 +159,7 @@ eqvExp ::= EQV LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqvExp(e
 
 equalExp ::= EQUAL LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqualExp(e1, e2); :};
 
-substrExp ::= EQUAL LPAREN tlExp:t COMMA INTEGER:int COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(str, int, int2); :};
+substrExp ::= EQUAL LPAREN tlExp:t COMMA INTEGER:int COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(t, int, int2); :};
 
 
 orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTLogBinaryExp<AIRExp>(o, "or", a); :} |
@@ -182,7 +180,6 @@ cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
-		   		STRING:str {: RESULT = str; :} |
 				term:t {: RESULT = t :};
 
 

@@ -116,9 +116,8 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
     public Painter visitPIRFunDef(PIRFunDef funDef, HPLContext context) throws HPLException {
         String funName = funDef.getFunName();
         ArrayList<String> nParams = funDef.getNumericalArgExps();
-        ArrayList<String> pParams = funDef.getPainterArgExps();
-	PIRSequence pSeq = funDef.getStatementSequence();
-	HPLFunction func = new HPLFunction(funName, nParams, pParams, pSeq, context);
+	    PIRSequence pSeq = funDef.getStatementSequence();
+	    HPLFunction func = new HPLFunction(funName, nParams, pParams, pSeq, context);
 
 
 	return Painter.DEFAULT;
@@ -170,7 +169,7 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
 	throws HPLException {
         String separator = printStmt.getSeparator();
         ASTExp expression = printStmt.getExpression();
-
+        p = expression+p;
         return p;
     }
 
