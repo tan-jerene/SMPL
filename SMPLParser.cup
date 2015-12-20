@@ -60,9 +60,11 @@ terminal LET, WAIT;
 /* Arithmetic operators */ 
 terminal PLUS, MINUS, TIMES, DIV, MOD;
 /* Punctuation */
-terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN, NOT, AND, OR;
 
 terminal Integer INTEGER;
+terminal Integer HEXINT;
+terminal Integer BININT;
 terminal Double FRACTION;
 terminal Double REAL;
 terminal String VAR;
@@ -76,8 +78,9 @@ non terminal SMPLStatement stmt;
 non terminal SMPLStatement waitStmt;
 non terminal SMPLPaintStmt printStmt;
 
-non terminal ASTExp expression;
-non terminal ASTExp cmpExp;
+non terminal ASTUnaryExp<AIRExp> notExp;
+non terminal ASTBinaryExp<AIRExp> expression;
+non terminal ASTCmpBinaryExp<AIRExp> cmpExp;
 non terminal ASTPairExp pairExp;
 non terminal ASTCarExp carExp;
 non terminal ASTCdrExp cdrExp;
@@ -121,10 +124,10 @@ stmt ::=   assignment:a {: RESULT = a; :} |
 
 waitStmt ::= WAIT arithExp:t {: RESULT = new SMPLWaitStmt(t); :};
 
-assignment ::= VAR:v ASSIGN comparison:c {:RESULT = new ExpAssign(v, c); :};
+assignment ::= VAR:v ASSIGN cmpExp:c {:RESULT = new ExpAssign(v, c); :};
 
-printStatement ::= PRINT expression:e {: RESULT = new SMPLPrintStmt("", e); :} |
-				   PRINTLN expression:e {: RESULT = new SMPLPrintStmt("\n", e); :};
+printStatement ::= PRINT cmpExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
+				   PRINTLN cmpExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
 
 /**********************CONDITIONAL FUNCTIONALITY*********************/
 /* 
@@ -138,6 +141,22 @@ printStatement ::= PRINT expression:e {: RESULT = new SMPLPrintStmt("", e); :} |
 ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
 				IF cmpExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
 
+
+/* 
+   	** TOP-LEVEL Expressions
+       Last editted:- 19/12/2015_2:00pm
+   	**
+*/
+orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTBinaryExp<AIRExp>(o, "or", a); :} |
+		   andStmt:a {: RESULT = a; :};
+ 
+andStmt ::= andStmt:a AND notStmt:n {: RESULT = new ASTBinaryExp<AIRExp>(a, "and", n); :} |
+			notStmt:n {: RESULT = n; :};
+
+notStmt ::= NOT cmpExp:c {: RESULT = new ASTUnaryExp<AIRExp>("not", e); :} |
+			cmpExp:c {: RESULT = c; :};
+
+
 /* 
    	** COMPARISON
        NON-TERMINALS USED:              
@@ -146,7 +165,7 @@ ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
        Last editted:- 15/12/2015_2:00pm
    	**
 */
-cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTBinaryExp<AIRExp>(c, m, e); } |
+cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c, m, e); } | 
 			   LPAREN cmpExp:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
 /********************************************************************/
@@ -227,8 +246,10 @@ power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); 
 factor ::= INTEGER:int {: RESULT = int; :} |
 		   FRACTION:frac {: RESULT = frac; :} |
 		   REAL:rl {:RESULT = rl; :} |
+		   HEXINT:h {: RESULT = h; :} |
+		   BININT:b {: RESULT = b; :} |
 		   STRING:str {: RESULT = str; :} |
-		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryOperator("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
+		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
 
 /*
 	** FUNCTION CALL SECTION

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
+public class SMPLEvaluator implements SMPLVisitor<HPLContext, String> {
 
     private final ArithEvaluator arithEval;
 
@@ -8,7 +8,7 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
         this.arithEval = new ArithEvaluator();
     }
 
-    public Painter getResult() {
+    public String getResult() {
 	   return lastResult;
     }
 
@@ -166,36 +166,19 @@ public class SMPLEvaluator implements SMPLVisitor<HPLContext, Painter> {
 
 
     @Override
-    public Painter visitPIRPaintStmt(PIRPaintStmt paintStmt, HPLContext env)
+    public String visitSMPLPrintStmt(SMPLPrintStmt printStmt, HPLContext env)
 	throws HPLException {
-        PIRFrameExp frameExp = paintStmt.getFrameExp();
-        ASTExp<PIRExp> painterExp = paintStmt.getPainterExp();
-        Painter p = painterExp.visit(this, env);
-	// We cheat a little to evaluate frames by having a dedicated eval
-	// method.  If there were more frame special forms, it would be better
-	// to create a Frame Visitor interface, and handle it like AIRVisitor
-        PainterFrame frame = frameExp.eval(env);
-        p.render(screen, frame);
+        String separator = printStmt.getSeparator();
+        ASTExp expression = printStmt.getExpression();
+
         return p;
     }
 
     @Override
-    public Painter visitPIRWaitStmt(PIRWaitStmt waitStmt, HPLContext state) throws HPLException {
-        ASTExp<AIRExp> durationExp = waitStmt.getDuration();
-        double duration = durationExp.visit(arithEval, state.getNumEnv());
-        try {
-            Thread.sleep((long) duration);
-            return Painter.DEFAULT;
-        } catch (InterruptedException ex) {
-            throw new HPLException("Interrupted while waiting");
-        }
-    }
-
-    @Override
-    public Painter visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
-        ASTExp predicate = ifStmt.getPredicate();
-        double val = predicate.visit(arithEval, state.getNumEnv());
-        if(val == 1.0){
+    public String visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
+        ASTCmpBinaryExp predicate = ifStmt.getPredicate();
+        Boolean val = predicate.visit(arithEval, state.getNumEnv()).booleanValue();
+        if(val){
             PIRSequence consequent = ifStmt.getConsequent();
             return consequent.visit(this, state);
         }

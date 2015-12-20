@@ -119,6 +119,10 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    if { return new Symbol(sym.IF); }
 <YYINITIAL>    IF { return new Symbol(sym.IF); }
 
+<YYINITIAL>    or|OR { return new Symbol(sym.OR); }
+<YYINITIAL>    and|AND { return new Symbol(sym.AND); }
+<YYINITIAL>    not|NOT { return new Symbol(sym.NOT); }
+
 <YYINITIAL>    then { return new Symbol(sym.THEN); }
 <YYINITIAL>    THEN { return new Symbol(sym.THEN); }
 
@@ -153,6 +157,18 @@ alphanum = ({alpha}|{num})
 
 <YYINITIAL>	{num}+"."{num}+ {
 			return new Symbol(sym.REAL, new Double(yytext()));
+		}
+
+<YYINITIAL> "#x"{num}+ {
+			int val = Integer.decode("0"+yytext().substring(1,yytext().length()));
+			String val1 = "" + val;
+			return new Symbol(sym.HEXINT, new Integer(val1));
+		}
+
+<YYINITIAL> "#b"{num}+ {
+			int val = Integer.parseInt(yytext().substring(2,yytext().length()), 2);
+			String val1 = "" + val;
+			return new Symbol(sym.BININT, new Integer(val1));
 		}
 
 <YYINITIAL>	\" {
