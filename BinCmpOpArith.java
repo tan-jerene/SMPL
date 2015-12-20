@@ -8,7 +8,7 @@
  *
  * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
  */
-public enum BinOpArith implements BinaryOp<Double, Boolean> {
+public enum BinCmpOpArith implements BinaryOp<Double, Boolean> {
     LTHAN("<") {
         @Override
         public Boolean apply(Double leftArg, Double rightArg) {

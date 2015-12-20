@@ -60,7 +60,7 @@ terminal LET, WAIT;
 /* Arithmetic operators */ 
 terminal PLUS, MINUS, TIMES, DIV, MOD;
 /* Punctuation */
-terminal LPAREN, RPAREN, LBRACKET, RBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, IF, THEN, NOT, AND, OR;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, LCBRACKET, RCBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, EQV, EQUAL, POW, IF, THEN, ELSE, CMP, NOT, AND, OR;
 
 terminal Integer INTEGER;
 terminal Integer HEXINT;
@@ -75,12 +75,18 @@ non terminal SMPLProgram program;
 
 non terminal SMPLSequence stmtList;
 non terminal SMPLStatement stmt;
+non terminal SMPLIfStmt ifstatement;
+non terminal SMPLAssignment assignment;
 non terminal SMPLStatement waitStmt;
 non terminal SMPLPaintStmt printStmt;
 
+non terminal ASTExp tlExp;
 non terminal ASTUnaryExp<AIRExp> notExp;
 non terminal ASTBinaryExp<AIRExp> expression;
 non terminal ASTCmpBinaryExp<AIRExp> cmpExp;
+non terminal ASTLogBinaryExp<AIRExp> orStmt;
+non terminal ASTLogBinaryExp<AIRExp> andStmt;
+non terminal ASTLogBinaryExp<AIRExp> notStmt;
 non terminal ASTPairExp pairExp;
 non terminal ASTCarExp carExp;
 non terminal ASTCdrExp cdrExp;
@@ -120,25 +126,36 @@ stmt ::=   assignment:a {: RESULT = a; :} |
 		   waitStmt:w {: RESULT = w; :} |
 		   expression:e {: RESULT = e; :} |
 		   printStmt:p {: RESULT = p; :} |
+		   funDef:f {: RESULT = f; :} |
 		   ifstatement:i {: RESULT = i; :};
 
-waitStmt ::= WAIT arithExp:t {: RESULT = new SMPLWaitStmt(t); :};
+waitStmt ::= WAIT tlExp:t {: RESULT = new SMPLWaitStmt(t); :};
 
-assignment ::= VAR:v ASSIGN cmpExp:c {:RESULT = new ExpAssign(v, c); :};
+assignment ::= VAR:v ASSIGN tlExp:c {:RESULT = new ExpAssign(v, c); :};
 
-printStatement ::= PRINT cmpExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
-				   PRINTLN cmpExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
-
-
-ifstatement ::= IF cmpExp:c THEN stmtList:s { new SMPLIfStmt(c, s); } |
-				IF cmpExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l)};
+printStatement ::= PRINT tlExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
+				   PRINTLN tlExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
 
 
+ifstatement ::= IF tlExp:c THEN stmtList:s {: new SMPLIfStmt(c, s); :} |
+				IF tlExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l); :};
 
-orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTBinaryExp<AIRExp>(o, "or", a); :} |
+tlExp ::= pairExp:p {: RESULT = p; :} |
+		  carExp:car {: RESULT = car; :} |
+		  cdrExp:cdr {: RESULT = cdr; :} |
+		  listExp:list {: RSULT = list; :} |
+		  eqvExp:eqv {: RESULT = eqv; :} |
+		  equalExp:equal {: RESULT = equal; :} |
+		  substrExp:sub {: RESULT = sub; :} |
+		  orStmt:o {: RESULT = o; :} |
+          LPAREN expression:e RPAREN {: RESULT = e; :} |
+   		  funCall:s {: RESULT = s; :};
+
+
+orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTLogBinaryExp<AIRExp>(o, "or", a); :} |
 		   andStmt:a {: RESULT = a; :};
  
-andStmt ::= andStmt:a AND notStmt:n {: RESULT = new ASTBinaryExp<AIRExp>(a, "and", n); :} |
+andStmt ::= andStmt:a AND notStmt:n {: RESULT = new ASTLogBinaryExp<AIRExp>(a, "and", n); :} |
 			notStmt:n {: RESULT = n; :};
 
 notStmt ::= NOT cmpExp:c {: RESULT = new ASTUnaryExp<AIRExp>("not", e); :} |
@@ -146,22 +163,13 @@ notStmt ::= NOT cmpExp:c {: RESULT = new ASTUnaryExp<AIRExp>("not", e); :} |
 
 
 
-cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c, m, e); } | 
+cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c, m, e); :} | 
 			   LPAREN cmpExp:c RPAREN {: RESULT = c; :} |
 			   expression:e {: RESULT = e; :};
 
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
-				pairExp:p {: RESULT = p; :} |
-				carExp:car {: RESULT = car; :} |
-				cdrExp:cdr {: RESULT = cdr; :} |
-				listExp:list {: RSULT = list; :} |
-				eqvExp:eqv {: RESULT = eqv; :} |
-				equalExp:equal {: RESULT = equal; :} |
-				substrExp:sub {: RESULT = sub; :} |
-	        	LPAREN expression:e RPAREN {: RESULT = e; :} |
-	   			funCall:s {: RESULT = s; :} |
 				term:t {: RESULT = t :};
 
 pairExp ::= PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTPairExp(e1, e2); :};
@@ -222,11 +230,11 @@ paramList ::= paramList:lst COMMA VAR:id {:
 		RESULT.add(id);
 	      :};
 
-expList ::= expList:lst COMMA exp:e {:
+expList ::= expList:lst COMMA cmpExp:e {:
 	          lst.add(e);
 		  RESULT = lst;
 	     :} |
-	     exp:e {:
+	     cmpExp:e {:
 		  RESULT = new ArrayList<>();
 		  RESULT.add(e);
 	     :}; 
