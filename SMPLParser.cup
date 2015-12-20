@@ -9,19 +9,19 @@ import java.util.*;
 action code {:          :};
 
 parser code {:
-		HPLLexer lexer;
+		SMPLLexer lexer;
 
-		public HPLParser(HPLLexer l) {
+		public HPLParser(SMPLLexer l) {
                     super(l);
                     lexer = l;
                 }
 
-		public HPLParser(String file) throws FileNotFoundException {
+		public SMPLParser(String file) throws FileNotFoundException {
 	            this(new HPLLexer(new FileReader(file)));
 		}
 
-                public HPLParser(InputStream is) {
-                    this(new HPLLexer(is));
+                public SMPLParser(InputStream is) {
+                    this(new SMPLLexer(is));
                 }
 
 		public void report_error(String message, Object info) {
@@ -78,10 +78,9 @@ non terminal SMPLStatement stmt;
 non terminal SMPLIfStmt ifstatement;
 non terminal SMPLAssignment assignment;
 non terminal SMPLStatement waitStmt;
-non terminal SMPLPaintStmt printStmt;
+non terminal SMPLPaintStmt printStatement;
 
 non terminal ASTExp tlExp;
-non terminal ASTUnaryExp<AIRExp> notExp;
 non terminal ASTBinaryExp<AIRExp> expression;
 non terminal ASTCmpBinaryExp<AIRExp> cmpExp;
 non terminal ASTLogBinaryExp<AIRExp> orStmt;
@@ -103,7 +102,6 @@ non terminal ArrayList<ASTExp> expListE;   /* potentially empty exp list */
 
 non terminal SMPLFunDef funDef;
 non terminal SMPLFunCall funCall;
-non terminal SMPLFrameExp subFrameExp;
 
 non terminal ArrayList<String> paramList;
 non terminal ArrayList<String> paramListE;
@@ -124,21 +122,21 @@ stmtList ::= stmtList:seq stmt:s {:
 
 stmt ::=   assignment:a {: RESULT = a; :} |
 		   waitStmt:w {: RESULT = w; :} |
-		   expression:e {: RESULT = e; :} |
-		   printStmt:p {: RESULT = p; :} |
-		   funDef:f {: RESULT = f; :} |
-		   ifstatement:i {: RESULT = i; :};
+		   printStatement:p {: RESULT = p; :} |
+		   //ifstatement:i {: RESULT = i; :} |
+		   funDef:f {: RESULT = f; :};
 
-waitStmt ::= WAIT tlExp:t {: RESULT = new SMPLWaitStmt(t); :};
+waitStmt ::= WAIT expression:t {: RESULT = new SMPLWaitStmt(t); :};
+
+
+//ifstatement ::= IF tlExp:c THEN stmtList:s {: new SMPLIfStmt(c, s); :} |
+				//IF tlExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l); :};
+
 
 assignment ::= VAR:v ASSIGN tlExp:c {:RESULT = new ExpAssign(v, c); :};
 
 printStatement ::= PRINT tlExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
 				   PRINTLN tlExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
-
-
-ifstatement ::= IF tlExp:c THEN stmtList:s {: new SMPLIfStmt(c, s); :} |
-				IF tlExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l); :};
 
 tlExp ::= pairExp:p {: RESULT = p; :} |
 		  carExp:car {: RESULT = car; :} |
@@ -148,8 +146,22 @@ tlExp ::= pairExp:p {: RESULT = p; :} |
 		  equalExp:equal {: RESULT = equal; :} |
 		  substrExp:sub {: RESULT = sub; :} |
 		  orStmt:o {: RESULT = o; :} |
-          LPAREN expression:e RPAREN {: RESULT = e; :} |
    		  funCall:s {: RESULT = s; :};
+
+
+pairExp ::= PAIR LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTPairExp(e1, e2); :};
+
+carExp ::= CAR tlExp:e {: RESULT = new ASTCarExp(e); :};
+
+cdrExp ::= CDR tlExp:e {: RESULT = new ASTCdrExp(e); :};
+
+listExp ::= LIST LPAREN LBRACKET expList:e RBRACKET RPAREN {: RESULT = new ASTListExp(e); :};
+
+eqvExp ::= EQV LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqvExp(e1, e2); :};
+
+equalExp ::= EQUAL LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqualExp(e1, e2); :};
+
+substrExp ::= EQUAL LPAREN tlExp:t COMMA INTEGER:int COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(str, int, int2); :};
 
 
 orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTLogBinaryExp<AIRExp>(o, "or", a); :} |
@@ -170,21 +182,8 @@ cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
+		   		STRING:str {: RESULT = str; :} |
 				term:t {: RESULT = t :};
-
-pairExp ::= PAIR LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTPairExp(e1, e2); :};
-
-carExp ::= CAR expression:e {: RESULT = new ASTCarExp(e); :};
-
-cdrExp ::= CDR expression:e {: RESULT = new ASTCdrExp(e); :};
-
-listExp ::= LIST LPAREN LBRACKET expList:e RBRACKET RPAREN {: RESULT = new ASTListExp(e); :};
-
-eqvExp ::= EQV LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTEqvExp(e1, e2); :};
-
-equalExp ::= EQUAL LPAREN expression:e1 COMMA expression:e2 RPAREN {: RESULT = new ASTEqualExp(e1, e2); :};
-
-substrExp ::= EQUAL LPAREN STRING:str COMMA INTEGER:int COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(str, int, int2); :};
 
 
 
@@ -204,7 +203,6 @@ factor ::= INTEGER:int {: RESULT = int; :} |
 		   REAL:rl {:RESULT = rl; :} |
 		   HEXINT:h {: RESULT = h; :} |
 		   BININT:b {: RESULT = b; :} |
-		   STRING:str {: RESULT = str; :} |
 		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
 
 
