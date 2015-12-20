@@ -6,7 +6,7 @@
 
 //package hpl.lang;
 
-// import hpl.sys.HPLException;
+// import hpl.sys.SMPLException;
 // import java.util.ArrayList;
 
 /**
@@ -17,7 +17,7 @@ public class SMPLFunDef extends SMPLStatement {
     private final ArrayList<String> fArgExps;
     private final SMPLSequence fSeq;
     
-    public HPLFunDef(String fnName, ArrayList<String> fArgs, SMPLSequence fSequence) {
+    public SMPLFunDef(String fnName, ArrayList<String> fArgs, SMPLSequence fSequence) {
         funName = fnName;
         fArgExps = fArgs;
 	    fSeq = fSequence;

@@ -1,6 +1,6 @@
 package hpl.sys;
 
-import hpl.values.HPLFunction;
+import hpl.values.SMPLFunction;
 import hpl.values.Painter;
 import java.util.ArrayList;
 
@@ -10,18 +10,18 @@ import java.util.ArrayList;
  * Created on 19-Dec-2015
  */
 public class SMPLContextImpl implements SMPLContext {
-	private HPLEnvironment<SMPLFunction> fnEnv;
-	private HPLEnvironment<Double> dEnv;
-	private HPLEnvironment<String> sEnv;
-    private HPLEnvironment<Boolean> bEnv;
+	private SMPLEnvironment<SMPLFunction> fnEnv;
+	private SMPLEnvironment<Double> dEnv;
+	private SMPLEnvironment<String> sEnv;
+    private SMPLEnvironment<Boolean> bEnv;
 
-	 public HPLContextImpl(HPLEnvironment<HPLFunction> fnEnv, HPLEnvironment<Double> dEnv){
+	 public SMPLContextImpl(SMPLEnvironment<SMPLFunction> fnEnv, SMPLEnvironment<Double> dEnv){
 		this.fnEnv = fnEnv;
 		this.dEnv = dEnv;
 		this.sEnv = sEnv;
         this.bEnv = bEnv;
 	 }
-	 public HPLContextImpl(){
+	 public SMPLContextImpl(){
 		this.fnEnv = null;
 		this.dEnv = null;
 		this.sEnv = null;
@@ -100,10 +100,10 @@ public class SMPLContextImpl implements SMPLContext {
      * Lookup a reference to a number
      * @param name The identifier of the Double
      * @return The number associated with the given name in this context
-     * @throws HPLException if the name is not bound to a number in this
+     * @throws SMPLException if the name is not bound to a number in this
      * context
      */
-    public Double getN(String name) throws HPLException{
+    public Double getN(String name) throws SMPLException{
 		return this.dEnv.get(name);
 	}
 
@@ -111,7 +111,7 @@ public class SMPLContextImpl implements SMPLContext {
      *
      * @return The numerical environment associated with this context.
      */
-    public HPLEnvironment<Double> getNumEnv(){
+    public SMPLEnvironment<Double> getNumEnv(){
 		return this.dEnv;
 	}
 
@@ -119,19 +119,19 @@ public class SMPLContextImpl implements SMPLContext {
      * Lookup a reference to a String
      * @param name The identifier of the String
      * @return The String associated with the given name in this context
-     * @throws HPLException if the name is not bound to a String in this
+     * @throws SMPLException if the name is not bound to a String in this
      * context
      */
-    public String getP(String name) throws HPLException{
+    public String getP(String name) throws SMPLException{
 		return this.pEnv.get(name);
 	}
 
     /**
-     * Store a binding for the given name to the given HPL function.
+     * Store a binding for the given name to the given SMPL function.
      * @param name The identifier of the binding
-     * @param p The HPL function to be associated with the name
+     * @param p The SMPL function to be associated with the name
      */
-    public void putF(String name, HPLFunction p){
+    public void putF(String name, SMPLFunction p){
 		fnEnv.put(name, p);
 	}
 

@@ -19,7 +19,7 @@ public class CmpEvaluator implements AIRVisitor<HPLEnvironment<Boolean>, Boolean
     
     HashMap<String, BinCmpArith> binCmpsMap;
     
-    public ArithEvaluator() {
+    public CmpEvaluator() {
         init();
     }
     

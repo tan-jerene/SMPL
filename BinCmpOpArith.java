@@ -26,25 +26,25 @@ public enum BinOpArith implements BinaryOp<Double, Boolean> {
     LTHANE("<=") {
         @Override
         public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg <= rightArg);
+            return leftArg <= rightArg;
         }
     },
     GTHANE(">=") {
         @Override
         public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg >= rightArg);
+            return leftArg >= rightArg;
         }
     },
     EQUAL("==") {
         @Override
         public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg == rightArg);
+            return leftArg == rightArg;
         }
     },
     NEQUAL("!=") {
         @Override
         public Boolean apply(Double leftArg, Double rightArg) {
-            return leftArg != rightArg);
+            return leftArg != rightArg;
         }
     },
     ;
