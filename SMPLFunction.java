@@ -16,7 +16,7 @@ public class SMPLFunction {
     String name;
     ArrayList<String> params;
     SMPLSequence body;
-    HPLContext closingEnv;
+    SMPLContext closingEnv;
 
     /**
      * Create a new function instance with a given name, parameter list, body
