@@ -6,7 +6,7 @@ import java.util.*;
  * It supports storing and retrieving bindings, just as would be
  * expected in any dictionary.
  *
- * @author 
+ * @author ThreeMusketeers
  * @version 1.0
  * @param <T> The type of datum to be bound to variables in this environment
  */

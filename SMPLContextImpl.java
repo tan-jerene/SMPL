@@ -1,7 +1,3 @@
-package hpl.sys;
-
-import hpl.values.SMPLFunction;
-import hpl.values.Painter;
 import java.util.ArrayList;
 
 /**

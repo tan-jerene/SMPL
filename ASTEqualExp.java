@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-// import java.util.ArrayList;
-
 /**
  * ASTNode to represent "equal" function which checks to expressions to determine whether equal.
  * @author

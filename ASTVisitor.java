@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 
-// package hpl.lang;
-
-// import hpl.sys.HPLException;
-
 /**
  *
  * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
@@ -17,10 +13,10 @@
  */
 public interface ASTVisitor<E extends ASTExp<E>, S, T> {
     
-    public T visitVar(ASTVar<E> var, S state) throws HPLException ;
+    public T visitVar(ASTVar<E> var, S state) throws SMPLException ;
     
-    public T visitUnaryExp(ASTUnaryExp<E> exp, S state) throws HPLException ;
+    public T visitUnaryExp(ASTUnaryExp<E> exp, S state) throws SMPLException ;
     
-    public T visitBinaryExp(ASTBinaryExp<E> exp, S state) throws HPLException ;
+    public T visitBinaryExp(ASTBinaryExp<E> exp, S state) throws SMPLException ;
     
 }

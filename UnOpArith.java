@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 
-package hpl.lang;
-
 /**
  * An enumeration of all unary arithmetic operations.
- * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
+ * @author ThreeMusketeers
  * Created on 28-Oct-2015
  */
 public enum UnOpArith implements UnaryOp<Double, Double>{

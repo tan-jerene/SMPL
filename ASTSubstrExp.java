@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-// import java.util.ArrayList;
-
 /**
  * ASTNode to represent "substr" function which defines the data to be processed in order to return the substring of the original.
  * @author

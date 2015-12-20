@@ -2,7 +2,7 @@
 public class SMPLException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    HPLException cause;
+    SMPLException cause;
 
     public SMPLException() {
 	   super();

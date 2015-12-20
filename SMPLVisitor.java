@@ -1,5 +1,5 @@
 /**
- * @author <a href="mailto:newts@uwimona.edu.jm">Daniel Coore</a>
+ * @author ThreeMusketeers
  * @version 1.0
  * @param <S> The type of the state used by the visitor
  * @param <T> The return type of the visitor

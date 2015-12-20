@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 
-package hpl.lang;
-
 /**
  * An interface to capture the behaviour of a generic unary operator.
- * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
+ * @author ThreeMusketeers
  * @param <E> The operand type
  * @param <T> The return type
  */

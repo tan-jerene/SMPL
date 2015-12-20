@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-// import java.util.ArrayList;
-
 /**
  * ASTNode to represent pair type definitions.
  * @author

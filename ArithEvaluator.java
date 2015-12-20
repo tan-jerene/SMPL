@@ -4,12 +4,6 @@
  * and open the template in the editor.
  */
 
-// package hpl.lang;
-
-// import hpl.sys.HPLEnvironment;
-// import hpl.sys.HPLException;
- import java.util.HashMap;
-
 /**
  * An evaluator for arithmetic subexpressions of HPL programs.
  * @author Daniel Coore <daniel.coore@uwimona.edu.jm>

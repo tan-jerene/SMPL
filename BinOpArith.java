@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-package hpl.lang;
-
 /**
  *
  * @author Daniel Coore <daniel.coore@uwimona.edu.jm>

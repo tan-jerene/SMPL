@@ -1,14 +1,11 @@
-//package hpl.lang;
-
 import java.util.*;
-//import hpl.sys.*;
 
 /**
  * An instance of the <code>PIRSequence</code> class is a sequence of
  * <code>PIRExp</code> objects.  Each expression representation is
  * treated as if it were a statement -- even if it yields a result.
  *
- * @author <a href="mailto:newts@uwimona.edu.jm">Daniel Coore</a>
+ * @author ThreeMusketeers
  * @version 1.0
  */
 public class SMPLSequence extends ASTExp {

@@ -1,6 +1,4 @@
-// package hpl.lang;
 
-// import hpl.sys.*;
 
 public abstract class ASTNode {
 

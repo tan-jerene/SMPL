@@ -4,7 +4,7 @@
  * statements at a later time without breaking the rest of the
  * language processor (interpreter or compiler).
  *
- * @author <a href="mailto:newts@uwimona.edu.jm">Daniel Coore</a>
+ * @author ThreeMusketeers
  * @version 1.0
  */
 public abstract class SMPLStatement extends ASTNode {

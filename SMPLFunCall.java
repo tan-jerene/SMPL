@@ -3,11 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-//package hpl.lang;
-
-// import hpl.sys.HPLException;
-// import java.util.ArrayList;
+ import java.util.ArrayList;
 
 /**
  * ASTNode to represent function calls.  Functions in HPL+ take a (possibly

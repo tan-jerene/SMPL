@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-//package hpl.lang;
-
 //import hpl.sys.HPLException;
 
 /**

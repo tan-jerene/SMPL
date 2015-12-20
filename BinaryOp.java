@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-package hpl.lang;
-
 /**
  * An interface to capture the behaviour of a generic binary operator.
  * @author Daniel Coore <daniel.coore@uwimona.edu.jm>

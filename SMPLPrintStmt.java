@@ -6,7 +6,7 @@
 
 /**
  *
- * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
+ * @author ThreeMusketeers
  * Created on 25-Oct-2015
  */
 public class SMPLPrintStmt extends SMPLStatement {

@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 
-// package hpl.lang;
-
-// import hpl.sys.HPLException;
-
 /**
  * Placeholder class to represent a generic expression.  
  * Should never be instantiated directly, instead one of the subclasses (e.g.

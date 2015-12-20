@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class SMPLEvaluator implements SMPLVisitor<HPLContext, String> {
+public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
 
     private final ArithEvaluator arithEval;
 
