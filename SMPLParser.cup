@@ -56,7 +56,7 @@ terminal ASSIGN;
 terminal LET, WAIT;
 
 /* Arithmetic operators */ 
-terminal PLUS, MINUS, TIMES, DIV, MOD;
+terminal PLUS, INC, MINUS, DEC, TIMES, DIV, MOD;
 /* Punctuation */
 terminal LPAREN, RPAREN, LBRACKET, RBRACKET, LCBRACKET, RCBRACKET, SEMI, COMMA, COLON, IN, DEF, PROC, PRINT, PRINTLN, PAIR, CAR, CDR, LIST, SUBSTR, EQV, EQUAL, POW, IF, THEN, ELSE, CMP, NOT, AND, OR;
 
@@ -178,6 +178,8 @@ cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
+				expression:e INC {: RESULT = new ASTBinaryExp<AIRExp>("+", e, new AIRExpInt(1)); :} |
+				expression:e DEC {: RESULT = new ASTBinaryExp<AIRExp>("-", e, new AIRExpInt(1)); :} |
 		   		STRING:str {: RESULT = str; :} |
 				term:t {: RESULT = t; :};
 

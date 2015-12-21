@@ -136,7 +136,9 @@ COMMENT_TEXT=([^/*\n]|[^*\n]"/"[^*\n]|[^/\n]"*"[^/\n]|"*"[^/\n]|"/"[^*\n])*
 <YYINITIAL>    "<"|">"|"<="|">="|"=="|"!="  { return new Symbol(sym.CMP, yytext()); }
 
 <YYINITIAL>    "+" { return new Symbol(sym.PLUS); }
+<YYINITIAL>    "++"{ return new Symbol(sym.INC); }
 <YYINITIAL>    "-" { return new Symbol(sym.MINUS); }
+<YYINITIAL>    "--"{ return new Symbol(sy,.DEC); }
 <YYINITIAL>    "*" { return new Symbol(sym.TIMES); }
 <YYINITIAL>    "/" { return new Symbol(sym.DIV); }
 <YYINITIAL>    "%" { return new Symbol(sym.MOD); }
