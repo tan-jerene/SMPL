@@ -178,10 +178,7 @@ cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
-<<<<<<< HEAD
 		   		STRING:str {: RESULT = str; :} |
-=======
->>>>>>> 1597c33a8278f05378f8ce3b99bddd512ac83eeb
 				term:t {: RESULT = t; :};
 
 
@@ -202,11 +199,7 @@ factor ::= INTEGER:i {: RESULT = i; :} |
 		   REAL:r {:RESULT = r; :} |
 		   HEXINT:h {: RESULT = h; :} |
 		   BININT:b {: RESULT = b; :} |
-<<<<<<< HEAD
-		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f); :} ; //Editted:- 14/12/2015_7:20pm
-=======
 		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f); :} ;
->>>>>>> 1597c33a8278f05378f8ce3b99bddd512ac83eeb
 
 
 
