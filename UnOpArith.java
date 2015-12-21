@@ -14,27 +14,26 @@ public enum UnOpArith implements UnaryOp<Double, Double>{
         @Override
         public Double apply(Double arg) {
             return arg + 1;
-        }
-    },   // experimental examples
+        }//experiment
+    };
 
     DEC("--") {
         @Override
         public Double apply(Double arg) {
             return arg - 1;
-        }
-    },   // experimental
+        }//experiment
+    };
 
     NEG("-") {
         @Override
         public Double apply(Double arg) {
             return -arg;
-        }
-    }
-    ;
+        }//experiment
+    };
     
     String symbol;
 
-    private UnOpArith(String symbol) {
+    public UnOpArith(String symbol) {
         this.symbol = symbol;
     }
 

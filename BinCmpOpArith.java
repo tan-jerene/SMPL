@@ -49,7 +49,7 @@ public enum BinCmpOpArith implements BinaryOp<Double, Boolean> {
     
     String symbol;
 
-    BinOpArith(String symbol) {
+    public BinOpArith(String symbol) {
         this.symbol = symbol;
     }
 

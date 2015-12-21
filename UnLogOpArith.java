@@ -12,20 +12,20 @@ package hpl.lang;
  * Created on 28-Oct-2015
  */
 public enum UnLogOpArith implements UnaryOp<Boolean, Boolean>{
+    
+     String symbol;
+
+    public UnOpArith(String symbol) {
+        this.symbol = symbol;
+    }
+
     NOT("not") {
         @Override
         public Boolean apply(Boolean arg) {
             return !arg;
         }//experimental examples
-    }
-    ;
+    };
     
-    String symbol;
-
-    private UnOpArith(String symbol) {
-        this.symbol = symbol;
-    }
-
     @Override
     public String getSymbol() {
         return symbol;

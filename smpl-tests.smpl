@@ -68,13 +68,13 @@ println("*** End of procedure application tests ***");
 println("*** Call expression ***");
 def f proc(y, z) pair(y, z);
 print("call(f, [1, 2]) = "); print(call(f, [1, 2]));
-println("Should be (1 . 2)"); 
+println("Should be (1 , 2)"); 
 print("call(f, list(3, 4)) = "); print(call(f, list(3, 4)));
-println("Should be (3 . 4)"); 
+println("Should be (3 , 4)"); 
 
 def g proc(x) list(x - 1, 1);
 print("call(f, g(4)) = "); print(call(f, g(4)));
-println("Should be (3 . 1)");
+println("Should be (3 , 1)");
 
 println("*** End of Call expression ***");
 

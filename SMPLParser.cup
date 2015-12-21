@@ -157,7 +157,7 @@ eqvExp ::= EQV LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqvExp(e
 
 equalExp ::= EQUAL LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqualExp(e1, e2); :};
 
-substrExp ::= EQUAL LPAREN tlExp:t COMMA INTEGER:int COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(t, int, int2); :};
+substrExp ::= EQUAL LPAREN tlExp:t COMMA INTEGER:int1 COMMA INTEGER:int2 RPAREN {: RESULT = new ASTSubstrExp(t,int1,int2); :};
 
 
 orStmt ::= orStmt:o OR andStmt:a {: RESULT = new ASTLogBinaryExp<AIRExp>(o, "or", a); :} |
@@ -178,7 +178,7 @@ cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
-				term:t {: RESULT = t :};
+				term:t {: RESULT = t; :};
 
 
 
@@ -198,7 +198,7 @@ factor ::= INTEGER:int {: RESULT = int; :} |
 		   REAL:rl {:RESULT = rl; :} |
 		   HEXINT:h {: RESULT = h; :} |
 		   BININT:b {: RESULT = b; :} |
-		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f) :} ; //Editted:- 14/12/2015_7:20pm
+		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f); :} ;
 
 
 
@@ -208,8 +208,8 @@ funCall ::= VAR:name LPAREN expListE:p RPAREN {:
 
 
 funDef ::= DEF VAR:name PROC LPAREN paramListE:p RPAREN LCBRACKET stmtList:s RCBRACKET {:
-			RESULT = new SMPLFunDef(name, p, s); |
-			DEF VAR:name PROC LPAREN paramListE:p RPAREN stmtList:s {:
+			RESULT = new SMPLFunDef(name, p, s); :} |
+			DEF VAR:name PROC LPAREN paramListE:p RPAREN stmtList:s SEMI {:
 			RESULT = new SMPLFunDef(name, p, s); :}; 
 
 
