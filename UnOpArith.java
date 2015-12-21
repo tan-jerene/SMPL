@@ -10,13 +10,6 @@
  * Created on 28-Oct-2015
  */
 public enum UnOpArith implements UnaryOp<Double, Double>{
-    
-     String symbol;
-
-    public UnOpArith(String symbol) {
-        this.symbol = symbol;
-    }
-
     INC("++") {
         @Override
         public Double apply(Double arg) {
@@ -36,6 +29,13 @@ public enum UnOpArith implements UnaryOp<Double, Double>{
         }//experiment
     },
     ;
+    
+     String symbol;
+
+    public UnOpArith(String symbol) {
+        this.symbol = symbol;
+    }
+
     
        @Override
     public String getSymbol() {
