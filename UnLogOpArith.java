@@ -17,11 +17,9 @@ public enum UnLogOpArith implements UnaryOp<Boolean, Boolean>{
         public Boolean apply(Boolean arg) {
             return !arg;
         }//experimental examples
-    }
-    ;
+    };
     
     String symbol;
-
     private UnLogOpArith(String symbol) {
         this.symbol = symbol;
     }

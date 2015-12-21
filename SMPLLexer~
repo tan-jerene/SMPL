@@ -18,6 +18,8 @@ import java_cup.runtime.*;
 %eofval}
 
 %state STRING
+//used for comments
+%state COMMENT
 
 %char
 %line
@@ -48,6 +50,7 @@ ws = ({cc}|[\t" "])
 num = [0-9]
 alpha = [A-Za-z_]
 alphanum = ({alpha}|{num})
+COMMENT_TEXT=([^/*\n]|[^*\n]"/"[^*\n]|[^/\n]"*"[^/\n]|"*"[^/\n]|"/"[^*\n])*
 
 %%
 <YYINITIAL>	"."	{ //. on a line by itself is EOF
@@ -137,6 +140,25 @@ alphanum = ({alpha}|{num})
 <YYINITIAL>    "%" { return new Symbol(sym.MOD); }
 <YYINITIAL>    "^" { return new Symbol(sym.POW); }
 <YYINITIAL>    "?" { return new Symbol(sym.QUERY); }
+
+//https://www.cs.princeton.edu/~appel/modern/java/JLex/current/sample.lex
+//Used a reference for comments
+<YYINITIAL,COMMENT> \n { }
+<YYINITIAL> "/*" { yybegin(COMMENT); comment_count = comment_count + 1; }
+
+<COMMENT> "/*" { comment_count = comment_count + 1; }
+<COMMENT> "*/" { 
+	comment_count = comment_count - 1; 
+	Utility.assert(comment_count >= 0);
+	if (comment_count == 0) {
+    		yybegin(YYINITIAL);
+	}
+}
+<YYINITIAL> "//" { yybegin(COMMENT);  }
+
+
+<COMMENT> {COMMENT_TEXT} { }
+
 
 <YYINITIAL>	{alpha}+{alphanum}* {
 			// IDENTIFIER

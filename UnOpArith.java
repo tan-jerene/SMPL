@@ -10,35 +10,35 @@
  * Created on 28-Oct-2015
  */
 public enum UnOpArith implements UnaryOp<Double, Double>{
+    
+     String symbol;
+
+    public UnOpArith(String symbol) {
+        this.symbol = symbol;
+    }
+
     INC("++") {
         @Override
         public Double apply(Double arg) {
             return arg + 1;
-        }
-    },   // experimental examples
+        }//experiment
+    };
 
     DEC("--") {
         @Override
         public Double apply(Double arg) {
             return arg - 1;
-        }
-    },   // experimental
+        }//experiment
+    };
 
     NEG("-") {
         @Override
         public Double apply(Double arg) {
             return -arg;
-        }
-    }
-    ;
+        }//experiment
+    };
     
-    String symbol;
-
-    private UnOpArith(String symbol) {
-        this.symbol = symbol;
-    }
-
-    @Override
+       @Override
     public String getSymbol() {
         return symbol;
     }

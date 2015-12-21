@@ -76,7 +76,7 @@ non terminal SMPLStatement stmt;
 non terminal SMPLIfStmt ifstatement;
 non terminal SMPLAssignment assignment;
 non terminal SMPLStatement waitStmt;
-non terminal SMPLPaintStmt printStatement;
+non terminal SMPLPrintStmt printStatement;
 
 non terminal ASTExp tlExp;
 non terminal ASTBinaryExp<AIRExp> expression;
@@ -119,22 +119,19 @@ stmtList ::= stmtList:seq stmt:s {:
 	         empty {: RESULT = new SMPLSequence(); :};
 
 stmt ::=   assignment:a {: RESULT = a; :} |
-		   waitStmt:w {: RESULT = w; :} |
 		   printStatement:p {: RESULT = p; :} |
 		   //ifstatement:i {: RESULT = i; :} |
 		   funDef:f {: RESULT = f; :};
-
-waitStmt ::= WAIT expression:t {: RESULT = new SMPLWaitStmt(t); :};
 
 
 //ifstatement ::= IF tlExp:c THEN stmtList:s {: new SMPLIfStmt(c, s); :} |
 				//IF tlExp:c THEN stmtList:s ELSE stmtList:l {: RESULT = new  SMPLIfStmt(c, s, l); :};
 
 
-assignment ::= VAR:v ASSIGN tlExp:c {:RESULT = new ExpAssign(v, c); :};
+assignment ::= VAR:v ASSIGN tlExp:c SEMI {:RESULT = new ExpAssign(v, c); :};
 
-printStatement ::= PRINT tlExp:e {: RESULT = new SMPLPrintStmt("", e); :} |
-				   PRINTLN tlExp:e {: RESULT = new SMPLPrintStmt("\n", e); :};
+printStatement ::= PRINT tlExp:e SEMI{: RESULT = new SMPLPrintStmt("", e); :} |
+				   PRINTLN tlExp:e SEMI{: RESULT = new SMPLPrintStmt("\n", e); :};
 
 tlExp ::= pairExp:p {: RESULT = p; :} |
 		  carExp:car {: RESULT = car; :} |
@@ -153,7 +150,8 @@ carExp ::= CAR tlExp:e {: RESULT = new ASTCarExp(e); :};
 
 cdrExp ::= CDR tlExp:e {: RESULT = new ASTCdrExp(e); :};
 
-listExp ::= LIST LPAREN LBRACKET expList:e RBRACKET RPAREN {: RESULT = new ASTListExp(e); :};
+listExp ::= LIST LPAREN expList:e RPAREN {: RESULT = new ASTListExp(e); :} |
+			LBRACKET expList:e RBRACKET{: RESULT = new ASTListExp(e); :};
 
 eqvExp ::= EQV LPAREN tlExp:e1 COMMA tlExp:e2 RPAREN {: RESULT = new ASTEqvExp(e1, e2); :};
 
@@ -180,7 +178,10 @@ cmpExp ::= cmpExp:c CMP:m expression:e {: RESULT = new ASTCmpBinaryExp<AIRExp>(c
 
 expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+", e, t); :} |
 				expression:e MINUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("-", e, t); :} |
+<<<<<<< HEAD
 		   		STRING:str {: RESULT = str; :} |
+=======
+>>>>>>> 1597c33a8278f05378f8ce3b99bddd512ac83eeb
 				term:t {: RESULT = t; :};
 
 
@@ -201,7 +202,11 @@ factor ::= INTEGER:i {: RESULT = i; :} |
 		   REAL:r {:RESULT = r; :} |
 		   HEXINT:h {: RESULT = h; :} |
 		   BININT:b {: RESULT = b; :} |
+<<<<<<< HEAD
 		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f); :} ; //Editted:- 14/12/2015_7:20pm
+=======
+		   LPAREN MINUS factor:f RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), f); :} ;
+>>>>>>> 1597c33a8278f05378f8ce3b99bddd512ac83eeb
 
 
 
@@ -211,8 +216,9 @@ funCall ::= VAR:name LPAREN expListE:p RPAREN {:
 
 
 funDef ::= DEF VAR:name PROC LPAREN paramListE:p RPAREN LCBRACKET stmtList:s RCBRACKET {:
-			RESULT = new SMPLFunDef(name, p, s);
-		  :} ; 
+			RESULT = new SMPLFunDef(name, p, s); :} |
+			DEF VAR:name PROC LPAREN paramListE:p RPAREN stmtList:s SEMI {:
+			RESULT = new SMPLFunDef(name, p, s); :}; 
 
 
 paramListE ::= paramList:lst {: RESULT = lst; :} |
