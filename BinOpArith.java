@@ -43,7 +43,7 @@ public enum BinOpArith implements BinaryOp<Double, Double> {
     
     String symbol;
 
-    public  BinOpArith(String symbol) {
+    BinOpArith(String symbol) {
         this.symbol = symbol;
     }
 
