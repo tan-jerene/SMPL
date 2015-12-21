@@ -1,11 +1,9 @@
 /* Specification for ECOLI tokens */
 // user customisations
-//package hpl.lang;
-//import hpl.sys.*;
 import java_cup.runtime.*;
 
 
-public class HPLLexer implements java_cup.runtime.Scanner {
+public class SMPLLexer implements java_cup.runtime.Scanner {
 	private final int YY_BUFFER_SIZE = 512;
 	private final int YY_F = -1;
 	private final int YY_NO_STATE = -1;
@@ -39,7 +37,7 @@ public class HPLLexer implements java_cup.runtime.Scanner {
 	private boolean yy_at_bol;
 	private int yy_lexical_state;
 
-	public HPLLexer (java.io.Reader reader) {
+	public SMPLLexer (java.io.Reader reader) {
 		this ();
 		if (null == reader) {
 			throw (new Error("Error: Bad input stream initializer."));
@@ -47,7 +45,7 @@ public class HPLLexer implements java_cup.runtime.Scanner {
 		yy_reader = new java.io.BufferedReader(reader);
 	}
 
-	public HPLLexer (java.io.InputStream instream) {
+	public SMPLLexer (java.io.InputStream instream) {
 		this ();
 		if (null == instream) {
 			throw (new Error("Error: Bad input stream initializer."));
@@ -55,7 +53,7 @@ public class HPLLexer implements java_cup.runtime.Scanner {
 		yy_reader = new java.io.BufferedReader(new java.io.InputStreamReader(instream));
 	}
 
-	private HPLLexer () {
+	private SMPLLexer () {
 		yy_buffer = new char[YY_BUFFER_SIZE];
 		yy_buffer_read = 0;
 		yy_buffer_index = 0;
