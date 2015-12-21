@@ -30,7 +30,7 @@ public class SMPLSequence extends ASTExp {
     }
 
     /**
-     * Add an HPL statement to the end of this sequence.
+     * Add an SMPL statement to the end of this sequence.
      *
      * @param stmt the statement to be added.
      */

@@ -14,7 +14,7 @@ public class SMPLAssignment extends SMPLStatement {
     String varName;
     ASTExp expression;
 
-    public SMPLPrintStmt(String varName, ASTExp expression) {
+    public SMPLAssignment(String varName, ASTExp expression) {
         this.varName = varName; //Determines whether print or println; "" - print, "\n" - println
         this.expression = expression; //Value to be printed
     }

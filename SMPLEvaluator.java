@@ -19,22 +19,22 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @return The frame that results from evaluating the program.  This is 
      *         not usually a useful value, because the objective of a program is usually
      *         to display a Painter (ie a side effect).
-     * @throws HPLException if any semantic errors are encountered during 
+     * @throws SMPLException if any semantic errors are encountered during 
      * evaluation
      */
     /************************** CURRENTLY BEING WORKED ON - 15/12/2015_12:05pm **************************/
     @Override
-    public Painter visitPIRProgram(PIRProgram program, HPLContext env) 
-            throws HPLException {
-        
+    public Painter visitSMPLProgram(SMPLProgram program, SMPLContext env) 
+            throws SMPLException {
+    /*    
 	// traverse the program with the given environment
 	// to obtain the resulting painter object.
-        PIRSequence stmts = program.getSeq();
+        SMPLSequence stmts = program.getSeq();
 	Painter tmp = stmts.visit(this, env);
 	// don't record null results, so that image on screen will persist
 	if (tmp != Painter.DEFAULT)
-	    lastResult = tmp;
-	return lastResult;
+	    lastResult = tmp;*/
+	return "Still working on it - visitSMPLProgram";
     }
 
     /* Painter special forms */
@@ -46,14 +46,14 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @param assignment The assignment statement
      * @param context The context in which the assignment should be evaluated
      * @return The painter value yielded by the right hand side of the assignment
-     * @throws HPLException
+     * @throws SMPLException
      */
     @Override
-    public Object visitPIRAssignment(PIRAssignment assignment,
-                                      HPLContext context) throws HPLException {
-	Painter result = assignment.getExp().visit(this, context);
-	context.putP(assignment.getVar(), result);
-	return result;
+    public String visitSMPLAssignment(SMPLAssignment assignment,
+                                      SMPLContext context) throws SMPLException {
+	/*Painter result = assignment.getExp().visit(this, context);
+	context.putP(assignment.getVar(), result);*/
+	return "Still working on it - visitSMPLAssignment";
     }
 
     /**
@@ -61,21 +61,21 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @param seq The statement sequence to be evaluated.
      * @param env The environment w.r.t which the sequence is to be evaluated
      * @return The result of the last statement in the sequence.
-     * @throws HPLException if an error was encountered in the sequence.
+     * @throws SMPLException if an error was encountered in the sequence.
      */
     @Override
-    public Painter visitPIRSequence(PIRSequence seq, HPLContext env)
-	throws HPLException
+    public String visitSMPLSequence(SMPLSequence seq, SMPLContext env)
+	throws SMPLException
     {
-	ArrayList<PIRStatement> stmts = seq.getStatements();
+	/*ArrayList<SMPLStatement> stmts = seq.getStatements();
 	Painter result = Painter.DEFAULT;
 
 	
-        for (PIRStatement stmt : stmts) {
+        for (SMPLStatement stmt : stmts) {
             result = stmt.visit(this, env);
-        }
+        }*/
 
-	return result;
+	return "Still working on it - visitSMPLSequence";
     }
 
     /**
@@ -83,13 +83,13 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @param exp An expression using the img-painter special form
      * @param env The context for evaluating the read from file
      * @return The painter object denoted by the image encoded in the file
-     * @throws HPLException If the file does not exist or could not be read.
+     * @throws SMPLException If the file does not exist or could not be read.
      */
-    @Override
-    public Painter visitPIRImagePainter(PIRImagePainter exp, HPLContext env)
-	throws HPLException {
+    /*@Override
+    public Painter visitSMPLImagePainter(SMPLImagePainter exp, SMPLContext env)
+	throws SMPLException {
 	return new PrimitivePainter(exp.getFile());
-    }
+    }*/
 
     /* ---------------  Edit here for Problem 5  -------------------------  */
 
@@ -97,30 +97,30 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @return a freshly created global context suitable for visiting top level
      * expressions.
      */
-    public HPLContext mkInitialContext() {
-	return new HPLContextImpl();
+    public SMPLContext mkInitialContext() {
+	return new SMPLContextImpl();
     }
 
     // *** Implement a method for function definition (according to your
-    //     modifications to HPLVisitor interface)
+    //     modifications to SMPLVisitor interface)
 
     /**
      * Evaluate a function definition.
      * @param funDef The function definition expression
      * @param context The environment w.r.t. which the call is evaluated
-     * @return HPLFunction object that arises from applying the function.
-     * @throws hpl.sys.HPLException if something goes wrong while invoking the 
+     * @return SMPLFunction object that arises from applying the function.
+     * @throws hpl.sys.SMPLException if something goes wrong while invoking the 
      * function definition.
      */
     @Override
-    public Painter visitPIRFunDef(PIRFunDef funDef, HPLContext context) throws HPLException {
-        String funName = funDef.getFunName();
+    public String visitSMPLFunDef(SMPLFunDef funDef, SMPLContext context) throws SMPLException {
+        /*String funName = funDef.getFunName();
         ArrayList<String> nParams = funDef.getNumericalArgExps();
-	    PIRSequence pSeq = funDef.getStatementSequence();
-	    HPLFunction func = new HPLFunction(funName, nParams, pParams, pSeq, context);
+	SMPLSequence pSeq = funDef.getStatementSequence();
+	SMPLFunction func = new SMPLFunction(funName, nParams, pParams, pSeq, context);*/
 
 
-	return Painter.DEFAULT;
+	   return "Still working on it - visitSMPLFunDef";
     }
 
     /**
@@ -128,61 +128,54 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @param funCall The function call expression
      * @param context The environment w.r.t. which the call is evaluated
      * @return The (painter) object that arises from applying the function.
-     * @throws hpl.sys.HPLException if something goes wrong while invoking the 
+     * @throws hpl.sys.SMPLException if something goes wrong while invoking the 
      * function call.
      */
     @Override
-    public Painter visitPIRFunCall(PIRFunCall funCall, HPLContext context) throws HPLException {
-        String funName = funCall.getFunName();
+    public String visitSMPLFunCall(SMPLFunCall funCall, SMPLContext context) throws SMPLException {
+        /*String funName = funCall.getFunName();
         ArrayList<ASTExp<AIRExp>> nArgExps = funCall.getNumericalArgExps();
-        ArrayList<ASTExp<PIRExp>> pArgExps = funCall.getPainterArgExps();
 
-		ArrayList<Painter> pArgs = new ArrayList<Painter>();
 		ArrayList<Double> nArgs = new ArrayList<Double>();
 			
 		// ** Incomplete implementation **
 			// evaluate the argument parameters ...
-		for (int i = 0; i<pArgExps.size(); i++) {
-			pArgs.add(pArgExps.get(i).visit(this, context));        
-		}
 		for (int i = 0; i<nArgExps.size(); i++) {
 			nArgs.add(nArgExps.get(i).visit(arithEval, context.getNumEnv()));	
 		}
-		HPLFunction func = context.getF(funName);
-		ArrayList<String> pStrArgs = func.getPainterParams();
+		SMPLFunction func = context.getF(funName);
 		ArrayList<String> nStrArgs = func.getNumericalParams();
 			// extend the closing environment with bindings for painter parameters
-		context.extendP(pStrArgs, pArgs); 
 			// also extend with bindings for numerical parameters
 		context.extendN(nStrArgs, nArgs);
         // and we extend with empty function frame to keep local functions local
-        	context.extendF(new ArrayList<String>(), new ArrayList<HPLFunction>());
-        // now return a painter that will execute the body when rendered.
-        return new CompoundPainter(this, func.getBody(), context); // (** fix this **)
+        	context.extendF(new ArrayList<String>(), new ArrayList<SMPLFunction>());
+        // now return a painter that will execute the body when rendered.*/
+        return "Still working on it - visitSMPLFunCall"; // (** fix this **)
     }
 
     /* ----------------- End of Section for Problem 5 ----------------- */
 
 
     @Override
-    public String visitSMPLPrintStmt(SMPLPrintStmt printStmt, HPLContext env)
-	throws HPLException {
+    public String visitSMPLPrintStmt(SMPLPrintStmt printStmt, SMPLContext env)
+	throws SMPLException {
         String separator = printStmt.getSeparator();
         ASTExp expression = printStmt.getExpression();
-        p = expression+p;
+        p = expression+separator;
         return p;
     }
 
     @Override
-    public String visitSMPLIfStmt(SMPLIfStmt ifStmt, HPLContext state) throws HPLException {
+    public String visitSMPLIfStmt(SMPLIfStmt ifStmt, SMPLContext state) throws SMPLException {
         ASTCmpBinaryExp predicate = ifStmt.getPredicate();
         Boolean val = predicate.visit(arithEval, state.getNumEnv()).booleanValue();
         if(val){
-            PIRSequence consequent = ifStmt.getConsequent();
+            SMPLSequence consequent = ifStmt.getConsequent();
             return consequent.visit(this, state);
         }
         else{
-            PIRSequence alternate = ifStmt.getAlternate();
+            SMPLSequence alternate = ifStmt.getAlternate();
             return alternate.visit(this, state);
         }
     }
@@ -193,27 +186,27 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @param context The context containing the environment in which to look
      * up the variable.
      * @return The painter object bound to the given variable.
-     * @throws HPLException if there is no painter bound to the given variable.
+     * @throws SMPLException if there is no painter bound to the given variable.
      */
     @Override
-    public Painter visitVar(ASTVar<PIRExp> var, HPLContext context)
-	throws HPLException {
+    public Painter visitVar(ASTVar<SMPLExp> var, SMPLContext context)
+	throws SMPLException {
 	return context.getP(var.getId());
     }
 
     @Override
-    public Painter visitUnaryExp(ASTUnaryExp<PIRExp> exp, HPLContext state)
-	throws HPLException  {
+    public Painter visitUnaryExp(ASTUnaryExp<SMPLExp> exp, SMPLContext state)
+	throws SMPLException  {
 	// should never get here unless language changes
-	throw new HPLException("Unknown unary operation applied to painter: " +
+	throw new SMPLException("Unknown unary operation applied to painter: " +
 			       exp);
     }
     
     @Override
-    public Painter visitBinaryExp(ASTBinaryExp<PIRExp> exp, HPLContext state)
-	throws HPLException {
+    public Painter visitBinaryExp(ASTBinaryExp<SMPLExp> exp, SMPLContext state)
+	throws SMPLException {
 	// should never get here unless language changes
-	throw new HPLException("Unknown binary operation applied to painters: "+
+	throw new SMPLException("Unknown binary operation applied to painters: "+
 			       exp);
     }
 }

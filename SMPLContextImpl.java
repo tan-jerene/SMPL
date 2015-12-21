@@ -57,7 +57,7 @@ public class SMPLContextImpl implements SMPLContext {
      * @return A newly created context containing the new String environment,
      * but leaving all the other components of the context unchanged.
      */
-    public SMPLContext extendS(ArrayList<String> pParams, ArrayList<Sting> args){  
+    public SMPLContext extendS(ArrayList<String> pParams, ArrayList<String> args){  
 		return new SMPLContextImpl(this.fnEnv, this.dEnv, new SMPLEnvironment<String>(this.sEnv, pParams, args), this.bEnv);
 	}
 
@@ -69,7 +69,7 @@ public class SMPLContextImpl implements SMPLContext {
      * @return A newly created context containing the new String environment,
      * but leaving all the other components of the context unchanged.
      */
-    public SMPLContext extendB(ArrayList<String> pParams, ArrayList<Sting> args){  
+    public SMPLContext extendB(ArrayList<String> pParams, ArrayList<String> args){  
         return new SMPLContextImpl(this.fnEnv, this.dEnv, this.sEnv, new SMPLEnvironment<Boolean>(this.bEnv, pParams, args));
     }
 
@@ -88,9 +88,9 @@ public class SMPLContextImpl implements SMPLContext {
      *
      * @return The (resultant) frame associated with this context.
      */
-    public PainterFrame getFrame(){
+    /*public PainterFrame getFrame(){
 		return this.bEnv;
-	}
+	}*/
 
     /**
      * Lookup a reference to a number

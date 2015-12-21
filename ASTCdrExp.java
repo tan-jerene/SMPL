@@ -24,7 +24,7 @@ public class ASTCdrExp extends ASTExp {
     }
     
     @Override
-    public <S, T> T visit(HPLVisitor<S, T> v, S state) throws HPLException {
+    public <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException {
         return v.visitASTCdrExp(this, state);
     }
 }

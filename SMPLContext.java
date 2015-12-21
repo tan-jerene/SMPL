@@ -23,7 +23,7 @@ public interface SMPLContext {
      * @return A newly created context containing the new function environment,
      * but leaving all the other components of the context unchanged.
      */
-    public HPLContext extendF(ArrayList<String> fParams, ArrayList<HPLFunction> args);
+    public SMPLContext extendF(ArrayList<String> fParams, ArrayList<SMPLFunction> args);
 
     /**
      * Create a new context in which the numerical environment is extended with
@@ -34,7 +34,7 @@ public interface SMPLContext {
      * @return A newly created context containing the new numerical environment,
      * but leaving all the other components of the context unchanged.
      */
-    public HPLContext extendN(ArrayList<String> nParams, ArrayList<Double> vals);
+    public SMPLContext extendN(ArrayList<String> nParams, ArrayList<Double> vals);
 
     /**
      * Create a new context in which the painter environment is extended with
@@ -44,54 +44,54 @@ public interface SMPLContext {
      * @return A newly created context containing the new painter environment,
      * but leaving all the other components of the context unchanged.
      */
-    public HPLContext extendS(ArrayList<String> pParams, ArrayList<String> args);
-    public HPLContext extendB(ArrayList<String> pParams, ArrayList<Boolean> args);
+    public SMPLContext extendS(ArrayList<String> pParams, ArrayList<String> args);
+    public SMPLContext extendB(ArrayList<String> pParams, ArrayList<Boolean> args);
 
     /**
-     * Lookup a reference to a HPL function.
-     * @param name The identifier of the HPL function
-     * @return The HPL function associated with the given name in this context
-     * @throws HPLException if the name is not bound to a painter in this
+     * Lookup a reference to a SMPL function.
+     * @param name The identifier of the SMPL function
+     * @return The SMPL function associated with the given name in this context
+     * @throws SMPLException if the name is not bound to a painter in this
      * context
      */
-    public HPLFunction getF(String name) throws HPLException;
+    public SMPLFunction getF(String name) throws SMPLException;
 
     /**
      *
      * @return The (resultant) frame associated with this context.
      */
-    public PainterFrame getFrame();
+    //public PainterFrame getFrame();
 
     /**
      * Lookup a reference to a number
      * @param name The identifier of the Double
      * @return The number associated with the given name in this context
-     * @throws HPLException if the name is not bound to a number in this
+     * @throws SMPLException if the name is not bound to a number in this
      * context
      */
-    public Double getN(String name) throws HPLException;
+    public Double getN(String name) throws SMPLException;
 
     /**
      *
      * @return The numerical environment associated with this context.
      */
-    public HPLEnvironment<Double> getNumEnv();
+    public SMPLEnvironment<Double> getNumEnv();
 
     /**
      * Lookup a reference to a painter
      * @param name The identifier of the painter
      * @return The painter associated with the given name in this context
-     * @throws HPLException if the name is not bound to a painter in this
+     * @throws SMPLException if the name is not bound to a painter in this
      * context
      */
-    public Painter getP(String name) throws HPLException;
+    public String getP(String name) throws SMPLException;
 
     /**
-     * Store a binding for the given name to the given HPL function.
+     * Store a binding for the given name to the given SMPL function.
      * @param name The identifier of the binding
-     * @param p The HPL function to be associated with the name
+     * @param p The SMPL function to be associated with the name
      */
-    public void putF(String name, HPLFunction p);
+    public void putF(String name, SMPLFunction p);
 
     /**
      * Store a binding for the given name to the given number.

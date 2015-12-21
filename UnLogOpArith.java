@@ -22,7 +22,7 @@ public enum UnLogOpArith implements UnaryOp<Boolean, Boolean>{
     
     String symbol;
 
-    private UnOpArith(String symbol) {
+    private UnLogOpArith(String symbol) {
         this.symbol = symbol;
     }
 

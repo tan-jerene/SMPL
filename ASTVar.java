@@ -6,7 +6,7 @@
 
 // package hpl.lang;
 
-// import hpl.sys.HPLException;
+// import hpl.sys.SMPLException;
 
 /**
  * A generic variable.
@@ -26,7 +26,7 @@ public class ASTVar<E extends ASTExp<E>> extends ASTExp<E> {
     }
 
     @Override
-    public <S, T> T visit(ASTVisitor<E, S, T> v, S state) throws HPLException {
+    public <S, T> T visit(ASTVisitor<E, S, T> v, S state) throws SMPLException {
         return v.visitVar(this, state);
     }
     

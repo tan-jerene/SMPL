@@ -15,9 +15,9 @@ public abstract class ASTNode {
 //     * @param state The state needed by the visitor
 //     * @return The return value of the visitor calling its method for visiting
 //     * statements.
-//     * @throws HPLException if the visitor encounters an error
+//     * @throws SMPLException if the visitor encounters an error
 //     */
-//    public abstract <S, T> T visit (ASTVisitor<S, T> v, S state) throws HPLException;
+//    public abstract <S, T> T visit (ASTVisitor<S, T> v, S state) throws SMPLException;
 
     /**
      *

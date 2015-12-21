@@ -24,10 +24,10 @@ public class AIRExpFrac extends AIRExp {
      * @param arg the data to be passed to the components of this
      * fraction expression
      * @return the result of visiting this fraction expression
-     * @throws hpl.sys.HPLException
+     * @throws hpl.sys.SMPLException
      */
     @Override
-    public <S, T> T visit(AIRVisitor<S, T> v, S arg) throws HPLException {
+    public <S, T> T visit(AIRVisitor<S, T> v, S arg) throws SMPLException {
 	return v.visitAIRExpFrac(this, arg);
     }
     

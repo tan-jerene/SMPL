@@ -6,7 +6,7 @@
  import java.util.ArrayList;
 
 /**
- * ASTNode to represent function calls.  Functions in HPL+ take a (possibly
+ * ASTNode to represent function calls.  Functions in SMPL+ take a (possibly
  * empty) list of painters and produce a painter.  Note that functions are
  * not themselves painters.
  * @author
@@ -37,7 +37,7 @@ public class SMPLFunCall extends ASTExp {
     }
     
     @Override
-    public <S, T> T visit(HPLVisitor<S, T> v, S state) throws HPLException {
+    public <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException {
         return v.visitSMPLFunCall(this, state);
     }
 }

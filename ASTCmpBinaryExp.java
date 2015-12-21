@@ -35,7 +35,7 @@ public class ASTCmpBinaryExp<E extends ASTExp<E>> extends ASTExp<E> {
     }
 
     @Override
-    public <S, T> T visit(ASTVisitor<E, S, T> v, S state) throws HPLException {
+    public <S, T> T visit(ASTVisitor<E, S, T> v, S state) throws SMPLException {
         return v.visitCmpBinaryExp(this, state);
     }
 }

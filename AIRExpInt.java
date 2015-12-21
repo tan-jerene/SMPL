@@ -24,10 +24,10 @@ public class AIRExpInt extends AIRExp {
      * @param arg the data to be passed to the visitor as it visits the 
      * components of this integer expression
      * @return the result of visiting this integer expression
-     * @throws hpl.sys.HPLException if the visitor encounters an error
+     * @throws hpl.sys.SMPLException if the visitor encounters an error
      */
     @Override
-    public <S,T> T visit(AIRVisitor<S, T> v, S arg) throws HPLException {
+    public <S,T> T visit(AIRVisitor<S, T> v, S arg) throws SMPLException {
 	return v.visitAIRExpInt(this, arg);
     }
 }

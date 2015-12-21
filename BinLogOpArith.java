@@ -25,7 +25,7 @@ public enum BinLogOpArith implements BinaryOp<Boolean, Boolean> {
     
     String symbol;
 
-    BinOpArith(String symbol) {
+    BinLogOpArith(String symbol) {
         this.symbol = symbol;
     }
 

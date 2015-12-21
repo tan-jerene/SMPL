@@ -60,7 +60,7 @@ public class SMPLEnvironment<T> {
      * @param id the identifier.
      * @return the T object associated with the identifier in
      * this environment.
-     * @exception HPLException if <code>id</code> is unbound
+     * @exception SMPLException if <code>id</code> is unbound
      */
     public T get(String id) throws SMPLException {
 	T result =  dictionary.get(id);
@@ -74,7 +74,7 @@ public class SMPLEnvironment<T> {
     }
 
     /**
-     * Create a string representation of this HPL environment.
+     * Create a string representation of this SMPL environment.
      *
      * @return a string of all the names bound in this environment.
      */

@@ -6,11 +6,11 @@
  import java.util.HashMap;
 
 /**
- * An evaluator for arithmetic subexpressions of HPL programs.
+ * An evaluator for arithmetic subexpressions of SMPL programs.
  * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
  * Created on 24-Oct-2015
  */
-public class CmpEvaluator implements AIRVisitor<HPLEnvironment<Boolean>, Boolean> {
+public class CmpEvaluator implements AIRVisitor<SMPLEnvironment<Boolean>, Boolean> {
     
     HashMap<String, BinCmpArith> binCmpsMap;
     
@@ -26,7 +26,7 @@ public class CmpEvaluator implements AIRVisitor<HPLEnvironment<Boolean>, Boolean
     }
 
     @Override
-    public Boolean visitBinaryCmpExp(ASTBinaryExp<AIRExp> exp, HPLEnvironment<Double> env) throws HPLException {
+    public Boolean visitBinaryCmpExp(ASTBinaryExp<AIRExp> exp, SMPLEnvironment<Double> env) throws SMPLException {
         String cmpName = exp.getOperator();
         BinCmpArith cmp = binCmpsMap.get(cmpName);
         ASTExp<AIRExp> leftExp = exp.getExp1();

@@ -1,11 +1,7 @@
-package hpl.values;
-
-import hpl.sys.*;
-import hpl.lang.*;
 import java.util.*;
 
 /**
- * Representation for HPL Functions.  HPL+ is statically scoped, so we have
+ * Representation for SMPL Functions.  SMPL+ is statically scoped, so we have
  * to maintain a closing environment for a function.
  * 
  * @author <a href="mailto:newts@uwimona.edu.jm">Daniel Coore</a>
@@ -16,7 +12,7 @@ public class SMPLFunction {
     String name;
     ArrayList<String> params;
     SMPLSequence body;
-    HPLContext closingEnv;
+    SMPLContext closingEnv;
 
     /**
      * Create a new function instance with a given name, parameter list, body

@@ -1,7 +1,9 @@
 /* Specification for ECOLI tokens */
 
 // user customisations
+//package hpl.lang;
 
+//import hpl.sys.*;
 import java_cup.runtime.*;
 
 %%
@@ -9,7 +11,7 @@ import java_cup.runtime.*;
 %cup
 %public
 
-%class SMPLLexer
+%class HPLLexer
 
 %type java_cup.runtime.Symbol
 
