@@ -22,21 +22,20 @@ public enum UnOpArith implements UnaryOp<Double, Double>{
         public Double apply(Double arg) {
             return arg + 1;
         }//experiment
-    };
-
+    },
     DEC("--") {
         @Override
         public Double apply(Double arg) {
             return arg - 1;
         }//experiment
-    };
-
+    },
     NEG("-") {
         @Override
         public Double apply(Double arg) {
             return -arg;
         }//experiment
-    };
+    },
+    ;
     
        @Override
     public String getSymbol() {
