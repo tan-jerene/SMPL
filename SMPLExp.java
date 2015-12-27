@@ -3,7 +3,7 @@
  * expressions.  Since numbers may not be named by SMPL variables, no
  * environment is needed to evaluate arithmetic expressions.
  *
- * @author <a href="mailto:newts@uwimona.edu.jm">Daniel Coore</a>
+ * @author ThreeMusketeers
  * @version 1.0
  */
 public abstract class SMPLExp extends ASTExp<SMPLExp> {
