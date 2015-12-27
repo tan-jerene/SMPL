@@ -119,7 +119,7 @@ public class SMPLContextImpl implements SMPLContext {
      * context
      */
     public String getP(String name) throws SMPLException{
-		return this.pEnv.get(name);
+		return this.sEnv.get(name);
 	}
 
     /**

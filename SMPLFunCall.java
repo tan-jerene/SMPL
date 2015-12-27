@@ -11,7 +11,7 @@
  * not themselves painters.
  * @author
  */
-public class SMPLFunCall extends ASTExp {
+public class SMPLFunCall extends SMPLExp {
     private final String funName;
     private final ArrayList<ASTExp> fArgExps;
     

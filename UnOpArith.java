@@ -30,9 +30,9 @@ public enum UnOpArith implements UnaryOp<Double, Double>{
     },
     ;
     
-     String symbol;
+    String symbol;
 
-    public UnOpArith(String symbol) {
+    UnOpArith(String symbol) {
         this.symbol = symbol;
     }
 

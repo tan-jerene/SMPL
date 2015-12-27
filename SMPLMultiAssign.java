@@ -9,18 +9,18 @@
  * @author ThreeMusketeers
  * Created on 20-Dec-2015
  */
-public class SMPLAssignment extends SMPLStatement {
+public class SMPLMultiAssign extends SMPLStatement {
 
-    String varName;
+    ArrayList<ASTExp> varList;
     ASTExp expression;
 
-    public SMPLAssignment(String varName, ASTExp expression) {
-        this.varName = varName; //Determines whether print or println; "" - print, "\n" - println
+    public SMPLMultiAssign(ArrayList<ASTExp> varList, ASTExp expression) {
+        this.varList = varList; //Determines whether print or println; "" - print, "\n" - println
         this.expression = expression; //Value to be printed
     }
 
-    public  String getVarName() {
-        return varName;
+    public  ArrayList<ASTExp> getVarList() {
+        return varList;
     }
 
     public ASTExp getExpression() {
@@ -29,7 +29,7 @@ public class SMPLAssignment extends SMPLStatement {
     
     @Override
     public <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException {
-        return v.visitSMPLAssignment(this, state);
+        return v.visitSMPLMultiAssign(this, state);
     }
 
 }

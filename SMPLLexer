@@ -1,9 +1,6 @@
 /* Specification for ECOLI tokens */
 
 // user customisations
-//package hpl.lang;
-
-//import hpl.sys.*;
 import java_cup.runtime.*;
 
 %%
@@ -11,7 +8,7 @@ import java_cup.runtime.*;
 %cup
 %public
 
-%class HPLLexer
+%class SMPLLexer
 
 %type java_cup.runtime.Symbol
 
@@ -20,7 +17,7 @@ import java_cup.runtime.*;
 %eofval}
 
 %state STRING
-//used for comments
+
 %state COMMENT
 
 %char
@@ -51,7 +48,10 @@ ws = ({cc}|[\t" "])
 
 num = [0-9]
 alpha = [A-Za-z_]
+char = [+-*#.?!]
 alphanum = ({alpha}|{num})
+alnumextend = ^{alphanum}({char}|{alphanum})+
+
 COMMENT_TEXT=([^/*\n]|[^*\n]"/"[^*\n]|[^/\n]"*"[^/\n]|"*"[^/\n]|"/"[^*\n])*
 
 %%
@@ -76,96 +76,104 @@ COMMENT_TEXT=([^/*\n]|[^*\n]"/"[^*\n]|[^/\n]"*"[^/\n]|"*"[^/\n]|"/"[^*\n])*
 <YYINITIAL>    "]" { return new Symbol(sym.RBRACKET);}
 <YYINITIAL>    "{" { return new Symbol(sym.LCBRACKET);} 
 <YYINITIAL>    "}" { return new Symbol(sym.RCBRACKET);} 
+<YYINITIAL>		"#t" { return new Symbol(sym.TRUE); }
+<YYINITIAL>   "#f" { return new Symbol(sym.FALSE); }
+<YYINITIAL>		"#e" { return new Symbol(sym.ELIST); }
+<YYINITIAL>		"@"	 { return new Symbol(sym.CON); }
+<YYINITIAL>		"[:" { return new Symbol(sym.VECHEAD); }
+<YYINITIAL>		":]" { return new Symbol(sym.VECEND); }
 
-<YYINITIAL>    end { return new Symbol(sym.END);}
-<YYINITIAL>    END { return new Symbol(sym.END);}
+<YYINITIAL>    end|END { return new Symbol(sym.END);}
 
-<YYINITIAL>    "=" { return new Symbol(sym.ASSIGN); }
+<YYINITIAL>    ":=" { return new Symbol(sym.ASSIGN); }
 
 <YYINITIAL>    in|IN { return new Symbol(sym.IN); }
 
-<YYINITIAL>    def { return new Symbol(sym.DEF); }
-<YYINITIAL>    DEF { return new Symbol(sym.DEF); }
+<YYINITIAL>    def|DEF { return new Symbol(sym.DEF); }
 
-<YYINITIAL>    proc { return new Symbol(sym.PROC); }
-<YYINITIAL>    PROC { return new Symbol(sym.PROC); }
+<YYINITIAL>    proc|PROC { return new Symbol(sym.PROC); }
 
-<YYINITIAL>    print { return new Symbol(sym.PRINT); }
-<YYINITIAL>    PRINT { return new Symbol(sym.PRINT); }
-<YYINITIAL>    println { return new Symbol(sym.PRINTLN); }
-<YYINITIAL>    PRINTLN { return new Symbol(sym.PRINTLN); }
+<YYINITIAL>    print|PRINT { return new Symbol(sym.PRINT); }
 
-<YYINITIAL>    pair { return new Symbol(sym.PAIR); }
-<YYINITIAL>    PAIR { return new Symbol(sym.PAIR); }
+<YYINITIAL>    println|PRINTLN { return new Symbol(sym.PRINTLN); }
 
-<YYINITIAL>    car { return new Symbol(sym.CAR); }
-<YYINITIAL>    CAR { return new Symbol(sym.CAR); }
+<YYINITIAL>		 read|READ {return new Symbol(sym.READ); }
 
-<YYINITIAL>    cdr { return new Symbol(sym.CDR); }
-<YYINITIAL>    CDR { return new Symbol(sym.CDR); }
+<YYINITIAL>		 readint|READINT {return new Symbol(sym.READINT); }
 
-<YYINITIAL>    list { return new Symbol(sym.LIST); }
-<YYINITIAL>    LIST { return new Symbol(sym.LIST); }
+<YYINITIAL>    pair|PAIR { return new Symbol(sym.PAIR); }
 
-<YYINITIAL>    size { return new Symbol(sym.SIZE); }
-<YYINITIAL>    SIZE { return new Symbol(sym.SIZE); }
+<YYINITIAL>    car|CAR { return new Symbol(sym.CAR); }
 
-<YYINITIAL>    eqv { return new Symbol(sym.EQV); }
-<YYINITIAL>    EQV { return new Symbol(sym.EQV); }
+<YYINITIAL>    cdr|CDR { return new Symbol(sym.CDR); }
 
-<YYINITIAL>    equal { return new Symbol(sym.EQUAL); }
-<YYINITIAL>    EQUAL { return new Symbol(sym.EQUAL); }
+<YYINITIAL>    list|LIST { return new Symbol(sym.LIST); }
 
-<YYINITIAL>    substr { return new Symbol(sym.SUBSTR); }
-<YYINITIAL>    SUBSTR { return new Symbol(sym.SUBSTR); }
+<YYINITIAL>    size|SIZE { return new Symbol(sym.SIZE); }
 
-<YYINITIAL>    if { return new Symbol(sym.IF); }
-<YYINITIAL>    IF { return new Symbol(sym.IF); }
+<YYINITIAL>    eqv|EQV { return new Symbol(sym.EQV); }
+
+<YYINITIAL>    equal|EQUAL { return new Symbol(sym.EQUAL); }
+
+<YYINITIAL>    substr|SUBSTR { return new Symbol(sym.SUBSTR); }
+
+<YYINITIAL>    if|IF { return new Symbol(sym.IF); }
 
 <YYINITIAL>    or|OR { return new Symbol(sym.OR); }
+
 <YYINITIAL>    and|AND { return new Symbol(sym.AND); }
+
 <YYINITIAL>    not|NOT { return new Symbol(sym.NOT); }
 
-<YYINITIAL>    then { return new Symbol(sym.THEN); }
-<YYINITIAL>    THEN { return new Symbol(sym.THEN); }
+<YYINITIAL>    then|THEN { return new Symbol(sym.THEN); }
 
-<YYINITIAL>    let|LET     { return new Symbol(sym.LET); }
+<YYINITIAL>		 else|ELSE { return new Symbol(sym.ELSE); }
+
+<YYINITIAL>    let|LET { return new Symbol(sym.LET); }
+
+<YYINITIAL>		 be|BE	{ return new Symbol(sym.BE);}
 
 <YYINITIAL>    wait|WAIT    { return new Symbol(sym.WAIT); }
+
+<YYINITIAL>		 binfunc|BINFUNC { return new Symbol(sym.BINFUNC); }
+
+<YYINITIAL>		 binquery|BINQUERY { return new Symbol(sym.BINQUERY); }
+
+<YYINITIAL> 	 lazy|LAZY { return new Symbol(sym.LAZY); }
+
 
 <YYINITIAL>    "<"|">"|"<="|">="|"=="|"!="  { return new Symbol(sym.CMP, yytext()); }
 
 <YYINITIAL>    "+" { return new Symbol(sym.PLUS); }
-<YYINITIAL>    "++"{ return new Symbol(sym.INC); }
+<YYINITIAL>    "++" { return new Symbol(sym.INC); }
 <YYINITIAL>    "-" { return new Symbol(sym.MINUS); }
-<YYINITIAL>    "--"{ return new Symbol(sy,.DEC); }
+<YYINITIAL>    "--" { return new Symbol(syM.DEC); }
 <YYINITIAL>    "*" { return new Symbol(sym.TIMES); }
 <YYINITIAL>    "/" { return new Symbol(sym.DIV); }
 <YYINITIAL>    "%" { return new Symbol(sym.MOD); }
 <YYINITIAL>    "^" { return new Symbol(sym.POW); }
 <YYINITIAL>    "?" { return new Symbol(sym.QUERY); }
 
-//https://www.cs.princeton.edu/~appel/modern/java/JLex/current/sample.lex
-//Used a reference for comments
+
 <YYINITIAL,COMMENT> \n { }
 <YYINITIAL> "/*" { yybegin(COMMENT); comment_count = comment_count + 1; }
 
 <COMMENT> "/*" { comment_count = comment_count + 1; }
 <COMMENT> "*/" { 
 	comment_count = comment_count - 1; 
-	Utility.assert(comment_count >= 0);
+	//Utility.assert(comment_count >= 0);
 	if (comment_count == 0) {
     		yybegin(YYINITIAL);
 	}
 }
-//Handle inline comment
+
 <YYINITIAL> "//" { yybegin(COMMENT);  }
 
 
 <COMMENT> {COMMENT_TEXT} { }
 
 
-<YYINITIAL>	{alpha}+{alphanum}* {
+<YYINITIAL>	{alnumextend} {
 			// IDENTIFIER
 			return new Symbol(sym.VAR, yytext()); }
 
@@ -194,6 +202,10 @@ COMMENT_TEXT=([^/*\n]|[^*\n]"/"[^*\n]|[^/\n]"*"[^/\n]|"*"[^/\n]|"/"[^*\n])*
 			String val1 = "" + val;
 			return new Symbol(sym.BININT, new Integer(val1));
 		}
+
+<YYINITIAL> \'{alphanum}\' {
+      return new Symbol(sym.CHAR, yytext().substring(1, yytext()-1));
+    }
 
 <YYINITIAL>	\" {
 			yybegin(STRING);

@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
+import java.util.HashMap;
+
 /**
  * An evaluator for arithmetic subexpressions of SMPL programs.
- * @author Daniel Coore <daniel.coore@uwimona.edu.jm>
+ * @author ThreeMusketeers
  * Created on 24-Oct-2015
  */
 public class ArithEvaluator implements AIRVisitor<SMPLEnvironment<Double>, Double> {

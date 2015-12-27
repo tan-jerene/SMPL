@@ -5,21 +5,21 @@
  */
 
 /**
- * ASTNode to represent "equal" function which checks to expressions to determine whether equal.
+ * ASTNode to represent "eqv" function which checks to expressions to determine whether equivalent.
  * @author
  */
-public class SMPLEqualExp extends ASTExp {
+public class SMPLEqvExp extends ASTExp {
     private final ASTExp exp1;
     private final ASTExp exp2;
     
-    public SMPLEqualExp(ASTExp exp1, ASTExp exp2) {
+    public SMPLEqvExp(ASTExp exp1, ASTExp exp2) {
         this.exp1 = exp1;
         this.exp2 = exp2;
     }
 
     /**
      *
-     * @return The first expression to be evaluated
+     * @return The first expression to be evaluated.
      */
     public ASTExp getExp1() {
         return exp1;
@@ -27,7 +27,7 @@ public class SMPLEqualExp extends ASTExp {
 
     /**
      *
-     * @return The second expression to be evaluated
+     * @return The second expression to be evaluated.
      */
     public ASTExp getExp2() {
         return exp2;
@@ -35,6 +35,6 @@ public class SMPLEqualExp extends ASTExp {
     
     @Override
     public <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException {
-        return v.visitSMPLEqualExp(this, state);
+        return v.visitSMPLEqvExp(this, state);
     }
 }
