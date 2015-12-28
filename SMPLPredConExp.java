@@ -8,7 +8,7 @@
  * ASTNode to represent pair type definitions.
  * @author ThreeMusketeers
  */
-public class SMPLPredConExp extends SMPLExp {
+public class SMPLPredConExp {
     private final ASTLogBinaryExp<AIRExp> predicate;
     private final SMPLSequence consequent;
     
@@ -31,10 +31,5 @@ public class SMPLPredConExp extends SMPLExp {
      */
     public SMPLSequence getConsequent() {
         return consequent;
-    }
-    
-    @Override
-    public <S, T> T visit(SMPLVisitor<S, T> v, S state) throws SMPLException {
-        return v.visitSMPLPredConExp(this, state);
     }
 }

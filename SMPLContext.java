@@ -105,6 +105,6 @@ public interface SMPLContext {
      * @param name The identifier of the binding
      * @param p The painter value to be associated with the name
      */
-    public void putP(String name, Painter p);
+    public void putS(String name, String p);
     
 }

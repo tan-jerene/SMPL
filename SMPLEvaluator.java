@@ -16,44 +16,17 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * Evaluate a program, returning the lastResulting frame.
      * @param program The program to be evaluated
      * @param env The top level environment providing bindings to the program
-     * @return The frame that results from evaluating the program.  This is 
-     *         not usually a useful value, because the objective of a program is usually
-     *         to display a Painter (ie a side effect).
+     * @return The String returned by the program when evaluated.
      * @throws SMPLException if any semantic errors are encountered during 
      * evaluation
      */
-    /************************** CURRENTLY BEING WORKED ON - 15/12/2015_12:05pm **************************/
     @Override
-    public Painter visitSMPLProgram(SMPLProgram program, SMPLContext env) 
-            throws SMPLException {
-    /*    
-	// traverse the program with the given environment
-	// to obtain the resulting painter object.
-        SMPLSequence stmts = program.getSeq();
-	Painter tmp = stmts.visit(this, env);
-	// don't record null results, so that image on screen will persist
-	if (tmp != Painter.DEFAULT)
-	    lastResult = tmp;*/
-	return "Still working on it - visitSMPLProgram";
-    }
-
-    /* Painter special forms */
-
-    /**
-     * Evaluate an assignment statement (creating a binding for the variable on
-     * the LHS of the assignment to the value obtained from evaluating the RHS
-     * of the assignment).
-     * @param assignment The assignment statement
-     * @param context The context in which the assignment should be evaluated
-     * @return The painter value yielded by the right hand side of the assignment
-     * @throws SMPLException
-     */
-    @Override
-    public String visitSMPLAssignment(SMPLAssignment assignment,
-                                      SMPLContext context) throws SMPLException {
-	/*Painter result = assignment.getExp().visit(this, context);
-	context.putP(assignment.getVar(), result);*/
-	return "Still working on it - visitSMPLAssignment";
+    public String visitSMPLProgram(SMPLProgram program, SMPLContext env) throws SMPLException {
+    
+        String tmp = stmts.visit(this, env);
+        if(tmp != String.DEFAULT)
+            lastResult = tmp;    
+    	return lastResult;
     }
 
     /**
@@ -64,45 +37,107 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @throws SMPLException if an error was encountered in the sequence.
      */
     @Override
-    public String visitSMPLSequence(SMPLSequence seq, SMPLContext env)
-	throws SMPLException
-    {
-	/*ArrayList<SMPLStatement> stmts = seq.getStatements();
-	Painter result = Painter.DEFAULT;
-
-	
-        for (SMPLStatement stmt : stmts) {
+    public String visitSMPLSequence(SMPLSequence seq, SMPLContext env) throws SMPLException {
+        
+        ArrayList<SMPLStatement> stmts = seq.getStatements();
+        String result = String.DEFAULT;
+        for(SMPLStatement stmt : stmts){
             result = stmt.visit(this, env);
-        }*/
-
-	return "Still working on it - visitSMPLSequence";
+        }
+        return result;
     }
-
-    /**
-     * Evaluate an IMG-PAINTER statement (one that reads an image from a file)
-     * @param exp An expression using the img-painter special form
-     * @param env The context for evaluating the read from file
-     * @return The painter object denoted by the image encoded in the file
-     * @throws SMPLException If the file does not exist or could not be read.
-     */
-    /*@Override
-    public Painter visitSMPLImagePainter(SMPLImagePainter exp, SMPLContext env)
-	throws SMPLException {
-	return new PrimitivePainter(exp.getFile());
-    }*/
-
-    /* ---------------  Edit here for Problem 5  -------------------------  */
 
     /**
      * @return a freshly created global context suitable for visiting top level
      * expressions.
      */
     public SMPLContext mkInitialContext() {
-	return new SMPLContextImpl();
+       return new SMPLContextImpl();
     }
 
-    // *** Implement a method for function definition (according to your
-    //     modifications to SMPLVisitor interface)
+    /*********************************STATEMENTS**************************************/
+    /**
+     *Implements all visitor functions in the SMPLVisitor interface that are in 
+     *classes that extend SMPLStatement.
+     */
+
+    /**
+     * Evaluate an assignment statement (creating a binding for the variable on
+     * the LHS of the assignment to the value obtained from evaluating the RHS
+     * of the assignment).
+     * @param assignment The assignment statement
+     * @param context The context in which the assignment should be evaluated
+     * @return The string value yielded by the right hand side of the assignment
+     * @throws SMPLException
+     */
+    @Override
+    public String visitSMPLAssignment(SMPLAssignment assignment, SMPLContext context) throws SMPLException {
+
+        String result = assignment.getExpression().visit(this, context);
+        context.putS(assignment.getVarName(), result);
+    	return result;
+    }
+
+    /**
+     * Evaluate an case-statement.
+     * @param caseStmt The case-statement
+     * @param context The context in which the case-statement should be evaluated
+     * @return String objext that is generated after evaluating the case-statement
+     * @throws hpl.sys.SMPLException if something goes wrong while invoking the 
+     * function definition.
+     */
+    @Override
+    public String visitSMPLCaseStmt(SMPLCaseStmt caseStmt, SMPLContext state) throws SMPLException {
+        ArrayList<SMPLPredConExp> lst = caseStmt.getLst();
+        String result = String.DEFAULT;
+        for(predConExp : lst){
+            predicate = predConExp.getPredicate();
+            boolean val = predicate.visit(arithEval, state.getNumEnv()).booleanValue();
+            if(val){
+                SMPLSequence consequent = predConExp.getConsequent();
+                return consequent.visit(this, state);
+            }
+        }
+    }
+
+    /**
+     * Evaluate an if-statement.
+     * @param ifStmt The if-statement
+     * @param context The context in which the if-statement should be evaluated
+     * @return String objext that is generated after evaluating the if-statement
+     * @throws hpl.sys.SMPLException if something goes wrong while invoking the 
+     * function definition.
+     */
+    @Override
+    public String visitSMPLIfStmt(SMPLIfStmt ifStmt, SMPLContext state) throws SMPLException {
+        ASTLogBinaryExp predicate = ifStmt.getPredicate();
+        boolean val = predicate.visit(arithEval, state.getNumEnv()).booleanValue();
+        if(val){
+            SMPLSequence consequent = ifStmt.getIfClause();
+            return consequent.visit(this, state);
+        }
+        else{
+            SMPLSequence alternate = ifStmt.getElseClause();
+            return alternate.visit(this, state);
+        }
+    }
+
+    /**
+     * Evaluate an print statement.
+     * @param printStmt The print statement
+     * @param context The context in which the print statement should be evaluated
+     * @return String objext that is generated after evaluating the print statement
+     * @throws hpl.sys.SMPLException if something goes wrong while invoking the 
+     * function definition.
+     */ 
+    @Override
+    public String visitSMPLPrintStmt(SMPLPrintStmt printStmt, SMPLContext env)
+    throws SMPLException {
+        String separator = printStmt.getSeparator();
+        ASTExp expression = printStmt.getExpression();
+        p = expression+separator;
+        return p;
+    }
 
     /**
      * Evaluate a function definition.
@@ -156,16 +191,6 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
 
     /* ----------------- End of Section for Problem 5 ----------------- */
 
-
-    @Override
-    public String visitSMPLPrintStmt(SMPLPrintStmt printStmt, SMPLContext env)
-	throws SMPLException {
-        String separator = printStmt.getSeparator();
-        ASTExp expression = printStmt.getExpression();
-        p = expression+separator;
-        return p;
-    }
-
     @Override
     public String visitSMPLIfStmt(SMPLIfStmt ifStmt, SMPLContext state) throws SMPLException {
         ASTCmpBinaryExp predicate = ifStmt.getPredicate();
@@ -189,9 +214,9 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
      * @throws SMPLException if there is no painter bound to the given variable.
      */
     @Override
-    public Painter visitVar(ASTVar<SMPLExp> var, SMPLContext context)
+    public String visitVar(ASTVar<SMPLExp> var, SMPLContext context)
 	throws SMPLException {
-	return context.getP(var.getId());
+	   return context.getS(var.getId());
     }
 
     @Override

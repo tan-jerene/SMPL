@@ -11,7 +11,7 @@
  */
 public class SMPLIfStmt extends SMPLStatement {
 
-    ASTCmpBinaryExp predicate;
+    ASTLogBinaryExp predicate;
     SMPLSequence ifClause;
     SMPLSequence elseClause;
 
@@ -22,7 +22,7 @@ public class SMPLIfStmt extends SMPLStatement {
         this.elseClause = elseClause; //Statements if false
     }
 
-    public ASTCmpBinaryExp getComparison() {
+    public ASTLogBinaryExp getPredicate() {
         return predicate;
     }
 
