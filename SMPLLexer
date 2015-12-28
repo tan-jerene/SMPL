@@ -46,6 +46,7 @@ cc = [\b\f]|{nl}
 
 ws = ({cc}|[\t" "])
 
+
 num = [0-9]
 alpha = [A-Za-z_]
 char = [+-*#.?!]
@@ -154,18 +155,6 @@ COMMENT_TEXT=([^/*\n]|[^*\n]"/"[^*\n]|[^/\n]"*"[^/\n]|"*"[^/\n]|"/"[^*\n])*
 <YYINITIAL>    "^" { return new Symbol(sym.POW); }
 <YYINITIAL>    "?" { return new Symbol(sym.QUERY); }
 
-
-<YYINITIAL,COMMENT> \n { }
-<YYINITIAL> "/*" { yybegin(COMMENT); comment_count = comment_count + 1; }
-
-<COMMENT> "/*" { comment_count = comment_count + 1; }
-<COMMENT> "*/" { 
-	comment_count = comment_count - 1; 
-	//Utility.assert(comment_count >= 0);
-	if (comment_count == 0) {
-    		yybegin(YYINITIAL);
-	}
-}
 
 <YYINITIAL> "//" { yybegin(COMMENT);  }
 

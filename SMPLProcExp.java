@@ -8,21 +8,21 @@ import java.util.ArrayList;
 /**
  * Last Editted:- 14/12/2015_5:30pm
  */
-public class SMPLFunDef extends SMPLExp { 
+public class SMPLProcExp extends SMPLExp { 
     private final ArrayList<String> fFArgExps;
     private final ArrayList<String> sFArgExps;
     private final SMPLSequence fSeq;
     
-    public SMPLFunDef(ArrayList<String> fFArgs, ArrayList<String> sFArgs, SMPLSequence fSequence) {
-        fFArgExps = fFArgs;
-        sFArgExps = sFArgs;
-	    fSeq = fSequence;
+    public SMPLProcExp(ArrayList<String> fFArgs, ArrayList<String> sFArgs, SMPLSequence fSequence) {
+        this.fFArgExps = fFArgs;
+        this.sFArgExps = sFArgs;
+	    this.fSeq = fSequence;
     }
     
-    public SMPLFunDef(ArrayList<String> fFArgs, SMPLSequence fSequence) {
-        fFArgExps = fFArgs;
-        sFArgExps = null;
-        fSeq = fSequence;
+    public SMPLProcExp(ArrayList<String> fFArgs, SMPLSequence fSequence) {
+        this.fFArgExps = fFArgs;
+        this.sFArgExps = null;
+        this.fSeq = fSequence;
     }
 
     /**

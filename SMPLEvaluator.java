@@ -90,7 +90,7 @@ public class SMPLEvaluator implements SMPLVisitor<SMPLContext, String> {
     public String visitSMPLCaseStmt(SMPLCaseStmt caseStmt, SMPLContext state) throws SMPLException {
         ArrayList<SMPLPredConExp> lst = caseStmt.getLst();
         String result = String.DEFAULT;
-        for(predConExp : lst){
+        for( SMPLPredConExp predConExp : lst){
             predicate = predConExp.getPredicate();
             boolean val = predicate.visit(arithEval, state.getNumEnv()).booleanValue();
             if(val){

@@ -15,7 +15,7 @@ public interface SMPLVisitor<S, T> extends ASTVisitor<SMPLExp, S, T> {
     /* SMPL Statements */
     public T visitSMPLAssignment(SMPLAssignment assignment, S state) throws SMPLException;
 
-    public T visitSMPLCaseStme(SMPLCaseStme caseStmt, S state) throws SMPLException;
+    public T visitSMPLCaseStmt(SMPLCaseStme caseStmt, S state) throws SMPLException;
     
     public T visitSMPLDefine(SMPLDefine define, S state) throws SMPLException; 
 

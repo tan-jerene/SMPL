@@ -98,7 +98,8 @@ non terminal SMPLBindExp bindExp;
 non terminal ArrayList<SMPLBindExp> bindList;
 non terminal ASTCmpBinaryExp<AIRExp> cmpExp;
 non terminal ASTLogBinaryExp<AIRExp> orExp,andExp,notExp;
-non terminal ASTExp<AIRExp> term,power,factor,cFactor,boolFactor;
+non terminal ASTExp<AIRExp> term,power,factor,cFactor;
+non terminAL ASTBoolExp boolFactor;
 non terminal SMPLCallExp callExp;
 non terminal SMPLCarExp carExp;
 non terminal SMPLCdrExp cdrExp;
@@ -150,7 +151,7 @@ stmt ::=   assignment:a SEMI{: RESULT = a; :} |
 		   ifstatement:i SEMI{: RESULT = i; :} |
 		   caseStmt:c SEMI {: RESULT = c; :} |
            define:d SEMI{: RESULT = d; :} |
-		   funDef:f SEMI{: RESULT = f; :};
+		   funDef:f SEMI{: RESULT = fd; :};
 
 //STATEMENTS
 ifstatement ::= IF tlExp:c THEN stmtList:s {: new SMPLIfStmt(c, s); :} |
@@ -265,32 +266,32 @@ expression ::=  expression:e PLUS term:t {: RESULT = new ASTBinaryExp<AIRExp>("+
 				expression:e DEC {: RESULT = new ASTBinaryExp<AIRExp>("-", e, new AIRExpInt(1)); :} |
 				term:t {: RESULT = t; :};
 
-term ::= term:t TIMES power:f {: RESULT = new ASTBinaryExp<AIRExp>("*", e, t); :} |
-		 term:t DIV power:f {: RESULT = new ASTBinaryExp<AIRExp>("/", e, t); :} |
-		 term:t MOD power:f {: RESULT = new ASTBinaryExp<AIRExp>("%", e, t); :} |
-		 power:p {: RESULT = p; :}; //Editted:- 14/12/2015_6:30pm
+term ::= term:t TIMES power:f {: RESULT = new ASTBinaryExp<AIRExp>("*", t, f); :} |
+		 term:t DIV power:f {: RESULT = new ASTBinaryExp<AIRExp>("/", t, f); :} |
+		 term:t MOD power:f {: RESULT = new ASTBinaryExp<AIRExp>("%", t, f); :} |
+		 power:p {: RESULT = p; :}; 
 
 
 
-power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", e, t); :} |
-		  factor:f {:RESULT = f; :}; //Editted:- 14/12/2015_6:30pm
+power ::= power:p POW factor:f {: RESULT = new ASTBinaryExp<AIRExp>("^", p, f); :} |
+		  factor:f {:RESULT = f; :}; 
 
 
 factor ::= 	cFactor:c |
 			LPAREN MINUS cFactor:c RPAREN {: RESULT = new ASTBinaryExp<AIRExp>("-", new AIRExpInt(0), c); :} |
-            funCall:f {: RESULT = f; :} |
+            funCall:f {: RESULT = fc; :} |
             boolFactor:b {: RESULT = b; :};
             
 funCall ::= VAR:v LPAREN expList:e RPAREN {: RESULT = new SMPLFunCall(v, e); :};
 		   
-boolFactor ::= 	TRUE:b {: RESULT = new ASTBoolExp(True); :} |
-								FALSE: b {: RESULT = new ASTBoolExp(False); :};
+boolFactor ::= 	TRUE {: RESULT = new ASTBoolExp("true"); :} |
+								FALSE: b {: RESULT = new ASTBoolExp("false"); :};
 
-cFactor ::= INTEGER:i {: RESULT = i; :} |
-						FRACTION:f {: RESULT = f; :} |
-            REAL:r {:RESULT = r; :} |
-		   			HEXINT:h {: RESULT = h; :} |
-            BININT:b {: RESULT = b; :} |
+cFactor ::= INTEGER:i {: RESULT = new AIRExpInt(i); :} |
+						FRACTION:fr {: RESULT = new AIRExpFrac(fr); :} |
+            REAL:r {:RESULT = new AIRExpFrac(r); :} |
+		   			HEXINT:h {: RESULT = new AIRExpInt(h); :} |
+            BININT:b {: RESULT = new AIRExpInt(b); :} |
           	STRING: str {: RESULT = str; :} |
             LPAREN tlExp:e RPAREN {: RESULT = e; :};
 
